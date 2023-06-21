@@ -1,39 +1,98 @@
-/* Estilos adicionales */
+/* Estilos globales */
 body {
-    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.jumbotron {
-    background-color: #007bff;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos del header */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* Estilos de la sección hero en tema oscuro */
+.dark-theme .hero {
+    background-color: #0f1624;
     color: #fff;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+.dark-theme .hero h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
 }
 
-.btn-primary:hover {
+.dark-theme .hero p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+/* Estilos de la sección de productos destacados en tema claro */
+.light-theme .featured-products {
+    background-color: #f0f7ff;
+    color: #333;
+}
+
+.light-theme .featured-products h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.product {
+    margin-bottom: 30px;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.product p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.btn:hover {
     background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-/* Estilos para tema oscuro */
-body.dark-mode {
-    background-color: #343a40;
-}
-
-.jumbotron.dark-mode {
-    background-color: #212529;
-    color: #fff;
-}
-
-.btn-primary.dark-mode {
-    background-color: #343a40;
-    border-color: #343a40;
-}
-
-.btn-primary.dark-mode:hover {
-    background-color: #1a1c20;
-    border-color: #1a1c20;
 }

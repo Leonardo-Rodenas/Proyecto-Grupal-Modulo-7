@@ -24,12 +24,10 @@ PROJECT_APP_PATH = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = ';NnYt$y1`FH5DCh{kzY0]]X*&]~)yVOwzEX{K(haMR+CWjtHQ1'
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -83,13 +81,13 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     },
     
-    #     'default': {
-    #     'ENGINE' : os.environ.get('ENGINE'),
-    #     'NAME' : os.environ.get('NAME'),
-    #     'USER' : os.environ.get('DB_USER'),
-    #     'PASSWORD' : os.environ.get('DB_PASSWORD'),
-    #     'HOST' : os.environ.get('DB_HOST'),
-    #     'PORT' : os.environ.get('DB_PORT')
+    # 'default': {
+    #     'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+    #     'NAME' : 'telovendo_db',
+    #     'USER' : 'Completo',
+    #     'PASSWORD' : 'Sevasco-3',
+    #     'HOST' : 'localhost',
+    #     'PORT' : '5432'
     # }
 }
 
