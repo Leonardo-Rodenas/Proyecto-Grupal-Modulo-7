@@ -1,4 +1,3 @@
 .entorno_grupal/*
-__pycache__
+__py_cache__
 .env 
-.grupalm7/*
