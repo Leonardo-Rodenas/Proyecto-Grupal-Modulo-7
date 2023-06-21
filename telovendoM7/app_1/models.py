@@ -16,7 +16,7 @@ REGIONES_CHOICES = [
     ('IV', 'Region de Coquimbo'),
     ('V', 'Region de Valparaiso'),
     ('RM', 'Region de Metropolitana'),
-    ('VI', 'Region del Libertador General Bernardo OHiggins'),
+    ('VI', 'Region del Libertador General Bernardo O´Higgins'),
     ('VII', 'Region del Maule'),
     ('XVI', 'Region del Ñuble'),
     ('VIII', 'Region del Biobio'),
@@ -50,13 +50,14 @@ class Direccion(models.Model):
     region = models.CharField(max_length=4, choices=REGIONES_CHOICES)
     ciudad = models.CharField(max_length=30)
     referencia = models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.calle
-
-class MetodoPago(models.Model):
-    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
+    deleted = models.BooleanField(default=False)
     
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def _str__(self):
+        return self.rut    
 
 class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -80,6 +81,14 @@ class Cliente(models.Model):
 
 class Clasificacion(models.Model):
     nombre = models.CharField(max_length=50)
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def _str__(self):
+        return self.rut
     
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
@@ -87,6 +96,16 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def _str__(self):
+        return self.rut
+    
+    
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
     idproducto = models.IntegerField(null=False)
@@ -94,12 +113,20 @@ class DetallePedido(models.Model):
     cantidad = models.IntegerField(null=False)
     precio = models.IntegerField(null=False)
     mediopedido = models.CharField(max_length=4, choices=VIA_CHOICES, default='3')
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
 
+    def _str__(self):
+        return self.rut
+    
 class Pedido(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
-    pago_pedido = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING, default=0)
+    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
     # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
     fecha_pedido = models.DateTimeField(default=timezone.now)
     deleted = models.BooleanField(default=False)
@@ -110,4 +137,6 @@ class Pedido(models.Model):
 
     def __str__(self):
         return self.id
-    
+
+# class MetodoPago(models.Model):
+#     metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
