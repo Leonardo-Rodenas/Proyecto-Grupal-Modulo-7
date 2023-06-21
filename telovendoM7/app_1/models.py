@@ -110,9 +110,4 @@ class Pedido(models.Model):
 
     def __str__(self):
         return self.id
-
-
-
-    # Completar modelo Pedidos
-    # Forma de pago?
-    # Extender auth.User con lo de cliente
+    
