@@ -114,7 +114,7 @@ class Producto(models.Model):
         return self.nombre
     
 class Pedido(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id = models.IntegerField(primary_key=True)
     # id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
     metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default='3')
@@ -127,8 +127,9 @@ class Pedido(models.Model):
         self.deleted = True
         self.save()
 
-    def __str__(self):
-        return self.id_detallepedido
+    def __int__(self):
+        return self.id
+
 
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
@@ -143,8 +144,8 @@ class DetallePedido(models.Model):
         self.deleted = True
         self.save()
 
-    def __str__(self):
-        return self.i
+    def __int__(self):
+        return self.id
     
 
 
