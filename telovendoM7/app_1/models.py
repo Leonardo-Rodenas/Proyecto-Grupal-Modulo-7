@@ -37,9 +37,9 @@ PAGOS_CHOICES = [
 ]
 
 VIA_CHOICES = [
-    (1, 'Telefono'),
-    (2, 'Email'),
-    (3, 'Web'),
+    ('1', 'Telefono'),
+    ('2', 'Email'),
+    ('3', 'Web'),
 ]
 
 ESTADOS_CHOICES = [
@@ -64,16 +64,16 @@ class Direccion(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return self.nombre    
 
 class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     rut = models.CharField(max_length=10)    
     primer_nombre = models.CharField(max_length=30)
-    segundo_nombre = models.CharField(max_length=30, null=True)
+    segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
     primer_apellido = models.CharField(max_length=30)
-    segundo_apellido = models.CharField(max_length=30, null=True)
+    segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
     direccion = models.ManyToManyField(Direccion)
     telefono = models.IntegerField()
     email = models.EmailField(max_length=50)
@@ -84,7 +84,7 @@ class Cliente(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return self.primer_nombre
 
 class Clasificacion(models.Model):
@@ -95,7 +95,7 @@ class Clasificacion(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return self.nombre
     
 class Producto(models.Model):
@@ -110,14 +110,14 @@ class Producto(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return self.nombre
     
 class Pedido(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
-    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
+    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default='3')
     # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
     fecha_pedido = models.DateTimeField(default=timezone.now)
     estado = models.CharField(max_length=4, choices=ESTADOS_CHOICES, default=1)
@@ -143,7 +143,7 @@ class DetallePedido(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
+    def __str__(self):
         return self.i
     
 
