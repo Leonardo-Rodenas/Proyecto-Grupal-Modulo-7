@@ -42,14 +42,22 @@ VIA_CHOICES = [
     (3, 'Web'),
 ]
 
+ESTADOS_CHOICES = [
+    ('1', 'Pendiente'),
+    ('2', 'En Preparación'),
+    ('3', 'En Despacho'),
+    ('4', 'Entregado'),
+]
+
 class Direccion(models.Model):  
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
+    nombre = models.CharField(max_length=20)
     calle = models.CharField(max_length=100)
     numero = models.IntegerField()
     comuna = models.CharField(max_length=50)
     region = models.CharField(max_length=4, choices=REGIONES_CHOICES)
     ciudad = models.CharField(max_length=30)
-    referencia = models.CharField(max_length=250)
+    referencia = models.CharField(max_length=250, null=True)
     deleted = models.BooleanField(default=False)
     
     def delete(self, *args, **kwargs):
@@ -57,7 +65,7 @@ class Direccion(models.Model):
         self.save()
 
     def _str__(self):
-        return self.rut    
+        return self.nombre    
 
 class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -66,7 +74,7 @@ class Cliente(models.Model):
     segundo_nombre = models.CharField(max_length=30, null=True)
     primer_apellido = models.CharField(max_length=30)
     segundo_apellido = models.CharField(max_length=30, null=True)
-    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
+    direccion = models.ManyToManyField(Direccion)
     telefono = models.IntegerField()
     email = models.EmailField(max_length=50)
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
@@ -77,7 +85,7 @@ class Cliente(models.Model):
         self.save()
 
     def _str__(self):
-        return self.rut
+        return self.primer_nombre
 
 class Clasificacion(models.Model):
     nombre = models.CharField(max_length=50)
@@ -88,7 +96,7 @@ class Clasificacion(models.Model):
         self.save()
 
     def _str__(self):
-        return self.rut
+        return self.nombre
     
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
@@ -103,13 +111,29 @@ class Producto(models.Model):
         self.save()
 
     def _str__(self):
-        return self.rut
+        return self.nombre
     
-    
+class Pedido(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
+    idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
+    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
+    # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
+    fecha_pedido = models.DateTimeField(default=timezone.now)
+    estado = models.CharField(max_length=4, choices=ESTADOS_CHOICES, default=1)
+    deleted = models.BooleanField(default=False)
+
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def __str__(self):
+        return self.id_detallepedido
+
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
-    idproducto = models.IntegerField(null=False)
-    # idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
+    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField(null=False)
     precio = models.IntegerField(null=False)
     mediopedido = models.CharField(max_length=4, choices=VIA_CHOICES, default='3')
@@ -120,23 +144,16 @@ class DetallePedido(models.Model):
         self.save()
 
     def _str__(self):
-        return self.rut
+        return self.i
     
-class Pedido(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
-    idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
-    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
-    # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
-    fecha_pedido = models.DateTimeField(default=timezone.now)
-    deleted = models.BooleanField(default=False)
 
-    def delete(self, *args, **kwargs):
-        self.deleted = True
-        self.save()
-
-    def __str__(self):
-        return self.id
 
 # class MetodoPago(models.Model):
 #     metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
+
+
+# observaciones:
+
+#     La relación pedido..detallepedido ¿no estará al revés? - check
+#     En detallepedido se considera idproducto, imagino que es FK, dónde está la tabla de referencia?
+#     Relación cliente..direccion ¿no estará al revés?
