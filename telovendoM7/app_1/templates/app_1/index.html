@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block carrusel %}
+{% load static%}
+<!-- Carrusel -->
+<div id="carrusel_container" style="padding: 0 100px; margin-top: 25px;">
+    <div id="carrusel_intro_TLV" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carrusel_intro_TLV" data-slide-to="0" class="active"></li>
+            <li data-target="#carrusel_intro_TLV" data-slide-to="1"></li>
+            <li data-target="#carrusel_intro_TLV" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" style="height: 450px;">
+            <div class="carousel-item active">
+                <img src="{% static 'img/carrusel/carrusel1.jpg' %}" class="d-block w-100 img-carrusel" alt="Slide 1">
+                <div class="carousel-caption">
+                    <h3 id="color_letra_carrusel">Vendedores Expertos</h3>
+                    <p id="color_letra_carrusel">Te asesoramos en lo que necesites</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'img/carrusel/carrusel2.jpg' %}" class="d-block w-100 img-carrusel" alt="Slide 2">
+                <div class="carousel-caption">
+                    <h3 id="color_letra_carrusel">Diversas formas de pago</h3>
+                    <p id="color_letra_carrusel">Transferencia, tarjeta, efectivo, Criptomonedas, lo que necesites :D</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'img/carrusel/carrusel3.jpg' %}" class="d-block w-100 img-carrusel" alt="Slide 3">
+                <div class="carousel-caption">
+                    <h3 id="color_letra_carrusel">Despachos a todo Chile</h3>
+                    <p id="color_letra_carrusel">Vía Courier de despacho, a la puerta de tu casa</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carrusel_intro_TLV" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#carrusel_intro_TLV" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block tarjetas %}
+{% load static%}
+<!-- Cards -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="{% static 'img/play_5.jpg' %}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
+                <div class="card-body">
+                    <h5 class="card-title">PS5 + God of War Ragnarok - Versión Con Lector </h5>
+                    <p class="card-text">Obtén el paquete PlayStation®5 + God of War Ragnarok y únete a Kratos 
+                        mientras se enfrenta a nuevos y peligrosos desafíos en en PS5.
+                    </p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="{% static 'img/pc_gamer.jpg' %}" class="card-img-top p-5" alt="Notebook Gamer Asus">
+                <div class="card-body">
+                    <h5 class="card-title">Notebook Asus Gamer ROG Strix G15 AMD Ryzen 9</h5>
+                    <p class="card-text">La más alta gama en tecnologia Gamer, experiencia sin límites en este 
+                        Notebook Gamer de gama alta. Te corre todo full y en Ultra</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="{% static 'img/silla_gamer.jpg' %}" class="card-img-top p-4" alt="Silla Gamer">
+                <div class="card-body">
+                    <h5 class="card-title">Silla Gamer Playseat Red Bull Fórmula 1 Negro</h5>
+                    <p class="card-text">En colaboración con Red Bull Racing, Playseat ha desarrollado un simulador 
+                        de conducción de Fórmula 1, revestido con los colores de la exitosa escudería Red Bull.</p>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

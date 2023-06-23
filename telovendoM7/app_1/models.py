@@ -159,12 +159,3 @@ class DetallePedido(models.Model):
     def __str__(self):
         return self.str_nombre
     
-# class MetodoPago(models.Model):
-#     metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
-
-
-# observaciones:
-
-#     La relación pedido..detallepedido ¿no estará al revés? - check
-#     En detallepedido se considera idproducto, imagino que es FK, dónde está la tabla de referencia?
-#     Relación cliente..direccion ¿no estará al revés?
