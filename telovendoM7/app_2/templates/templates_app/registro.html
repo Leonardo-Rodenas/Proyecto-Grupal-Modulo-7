@@ -1,0 +1,131 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block titulo %}
+
+Yo quiero Otro Mundo - Registro
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Inicio Registro -->
+<section class="h-100 gradient-form">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+                <div class="card rounded-0 text-black">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="card bg-glass border-0 m-5">
+                                <div>
+                                    <div class="text-center mb-5">
+                                        <img class="align-self-center ms-4" src="{% static 'img/logo.png' %}"
+                                            alt="icono_navbar" style="width: 50px; height: auto;">
+                                        <h1 class="tipoLetra text-success">
+                                            <span class="text-dark font-size-sm">YO QUIERO OTRO</span>
+                                            <span class="font-size-sm">MUNDO</span>
+                                        </h1>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="mb-2 text-end">
+                                            <!--inicio formulario-->
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <label class="fw-bold mb-1  fs-5" for="first_name">Ingresa tu
+                                                    Nombre</label>
+                                                <input type="text" id="first_name" name="first_name"
+                                                    class="form-control" placeholder="Nombre" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+                                                <br>
+                                                <label class="fw-bold mb-1  fs-5" for="last_name">Ingresa tu
+                                                    Apellido</label>
+                                                <input type="text" id="last_name" name="last_name" class="form-control"
+                                                    placeholder="Apellido" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+                                                <br>
+                                                <label class="fw-bold mb-1  fs-5" for="username">Ingresa un nombre de
+                                                    usuario</label>
+                                                <input type="text" id="username" name="username" class="form-control"
+                                                    placeholder="Usuario" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+                                                <br>
+                                                <label class="fw-bold mb-1  fs-5" for="email">Ingresa un E-mail</label>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="E-mail" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+
+                                                <div class="text-center">
+                                                    <input type="submit" class="btn btn-outline-success mb-1"
+                                                        value="Registrate">
+                                                </div>
+                                            </form>
+
+                                            {% if error %}
+                                            <p>{{ error }}</p>
+                                            {% endif %}
+
+                                            <!--fin formulario-->
+
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="text-center">
+                                        <h5 class="fw-bold">O regístrate con:</h5>
+                                        <button type="button" class="btn btn-link btn-floating mx-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green"
+                                                class="bi bi-facebook me-1" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                            </svg>
+                                        </button>
+
+                                        <button type="button" class="btn btn-link btn-floating mx-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green"
+                                                class="bi bi-google me-1" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                            </svg>
+                                        </button>
+
+                                        <button type="button" class="btn btn-link btn-floating mx-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green"
+                                                class="bi bi-twitter me-1" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 d-flex align-items-center" id="gradiente_verde">
+                            <div class="text-white text-center py-4 p-md-5 mx-md-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" fill="white"
+                                    class="bi bi-people" viewBox="0 0 16 16">
+                                    <path
+                                        d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+                                </svg>
+                                <h3 class="mb-4 fw-bold">Somos más que solo una empresa</h3>
+                                <p class="small mb-0 fs-4 mx-4">En “Yo quiero otro Mundo” estamos comprometidos con
+                                    la causa, y
+                                    siempre nos la jugamos por lo creemos correcto. </p>
+                                <div class="card-body border border-light rounded-2 mt-5 bg-success fs-4 mx-4">
+                                    Regístrate para ser parte de nuestra comunidad y recibir noticias,
+                                    descuentos en
+                                    capacitaciones y consejos todas las semanas.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Fin Registro -->
+
+{% endblock %}

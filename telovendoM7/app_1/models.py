@@ -69,6 +69,7 @@ class Cliente(models.Model):
     def __str__(self):
         return self.primer_nombre
 
+
 class Direccion(models.Model):  
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
     nombre = models.ForeignKey(Cliente, on_delete=models.CASCADE)
@@ -159,3 +160,5 @@ class DetallePedido(models.Model):
     def __str__(self):
         return self.str_nombre
     
+
+

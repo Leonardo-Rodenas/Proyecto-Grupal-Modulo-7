@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_1',
+    'app_2',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'telovendoM7.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app_1', 'templates', 'app_1')],
+ 'DIRS': [os.path.join(BASE_DIR, 'app_1', 'templates', 'app_1'), os.path.join(BASE_DIR, 'app_2', 'templates', 'templates_app') ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
