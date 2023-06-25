@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 import uuid
+from django.contrib.auth.models import User
 
 # Manager
 class PublicacionManager(models.Manager):
@@ -51,10 +52,11 @@ ESTADOS_CHOICES = [
 
 class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default='')
     rut = models.CharField(max_length=10)    
-    primer_nombre = models.CharField(max_length=30)
+    primer_nombre = models.CharField(max_length=30, blank=True)
     segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
-    primer_apellido = models.CharField(max_length=30)
+    primer_apellido = models.CharField(max_length=30, blank=True)
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
     # direccion = models.CharField(max_length=100)
     telefono = models.IntegerField()
@@ -68,7 +70,6 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.primer_nombre
-
 
 class Direccion(models.Model):  
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
