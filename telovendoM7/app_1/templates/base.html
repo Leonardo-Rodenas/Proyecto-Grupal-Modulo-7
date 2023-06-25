@@ -71,25 +71,19 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'telovendo' %}">Inicio</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Usuarios registrados</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Proveedores</a>
-                </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link text-success" href="#">Iniciar sesion</a>
+                    <a class="nav-link text-success" href="{% url 'login' %}">Iniciar sesion</a>
                 </li>
                 {% endif %}
                 {% if groups.name is vendedor %}
                 <li class="nav-item active">
-                    <a class="nav-link text-warning" href="#">Registrar usuario</a>
+                    <a class="nav-link text-warning" href="{% url 'registro' %}">Registrar usuario</a>
                 </li>
                 {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link text-danger" href="#">Cerrar sesión</a>
+                    <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>
                 {% endif %}
             </ul>

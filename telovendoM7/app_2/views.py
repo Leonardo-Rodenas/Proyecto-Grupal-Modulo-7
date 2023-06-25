@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
+from django.urls import reverse
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -11,7 +12,6 @@ def registrar_usuario(request):
         username = request.POST['username']
         email = request.POST['email']
         password = get_random_string(length=6)
-
 
         # Check if the user already exists
         if User.objects.filter(username=username).exists():
@@ -34,9 +34,9 @@ def registrar_usuario(request):
             fail_silently=False
         )
 
-        # Redirect to a success page or any desired page
-        return redirect('telovendo')
+        # Redirect to the login page
+        login_url = reverse('login')
+        return redirect(login_url)
 
     # If it's a GET request, display the registration form
     return render(request, 'registro.html')
-
