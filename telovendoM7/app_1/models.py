@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 import uuid
+from django.contrib.auth.models import User
 
 # Manager
 class PublicacionManager(models.Manager):
@@ -16,7 +17,7 @@ REGIONES_CHOICES = [
     ('IV', 'Region de Coquimbo'),
     ('V', 'Region de Valparaiso'),
     ('RM', 'Region de Metropolitana'),
-    ('VI', 'Region del Libertador General Bernardo OHiggins'),
+    ('VI', 'Region del Libertador General Bernardo O´Higgins'),
     ('VII', 'Region del Maule'),
     ('XVI', 'Region del Ñuble'),
     ('VIII', 'Region del Biobio'),
@@ -28,44 +29,36 @@ REGIONES_CHOICES = [
 ]
 
 PAGOS_CHOICES = [
-    ('1', 'Efectivo'),
-    ('2', 'Transferencia'),
-    ('3', 'Crédito'),
-    ('4', 'Debito'),
-    ('5', 'PayPal'),
-    ('6', 'Mach'),
+    ('Efectivo', 'Efectivo'),
+    ('Transferencia', 'Transferencia'),
+    ('Crédito', 'Crédito'),
+    ('Debito', 'Debito'),
+    ('PayPal', 'PayPal'),
+    ('Mach', 'Mach'),
 ]
 
 VIA_CHOICES = [
-    (1, 'Telefono'),
-    (2, 'Email'),
-    (3, 'Web'),
+    ('Telefono', 'Telefono'),
+    ('E-mail', 'E-mail'),
+    ('Web', 'Web'),
 ]
 
-class Direccion(models.Model):  
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
-    calle = models.CharField(max_length=100)
-    numero = models.IntegerField()
-    comuna = models.CharField(max_length=50)
-    region = models.CharField(max_length=4, choices=REGIONES_CHOICES)
-    ciudad = models.CharField(max_length=30)
-    referencia = models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.calle
-
-class MetodoPago(models.Model):
-    metodo_pago = models.CharField(max_length=4, choices=PAGOS_CHOICES, default=3)
-    
+ESTADOS_CHOICES = [
+    ('Pendiente', 'Pendiente'),
+    ('En Preparación', 'En Preparación'),
+    ('En Despacho', 'En Despacho'),
+    ('Entregado', 'Entregado'),
+]
 
 class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default='')
     rut = models.CharField(max_length=10)    
-    primer_nombre = models.CharField(max_length=30)
-    segundo_nombre = models.CharField(max_length=30, null=True)
-    primer_apellido = models.CharField(max_length=30)
-    segundo_apellido = models.CharField(max_length=30, null=True)
-    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
+    primer_nombre = models.CharField(max_length=30, blank=True)
+    segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
+    primer_apellido = models.CharField(max_length=30, blank=True)
+    segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
+    # direccion = models.CharField(max_length=100)
     telefono = models.IntegerField()
     email = models.EmailField(max_length=50)
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
@@ -75,11 +68,41 @@ class Cliente(models.Model):
         self.deleted = True
         self.save()
 
-    def _str__(self):
-        return self.rut
+    def __str__(self):
+        return self.primer_nombre
+
+class Direccion(models.Model):  
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
+    nombre = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    calle = models.CharField(max_length=100)
+    numero = models.IntegerField()
+    comuna = models.CharField(max_length=50)
+    region = models.CharField(max_length=4, choices=REGIONES_CHOICES)
+    ciudad = models.CharField(max_length=30)
+    referencia = models.CharField(max_length=250, null=True)
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    @property
+    def str_nombre(self):
+        return f"{self.calle}, {self.comuna}, {self.region}, {self.ciudad}"
+     
+    def __str__(self):
+        return self.str_nombre    
 
 class Clasificacion(models.Model):
     nombre = models.CharField(max_length=50)
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def __str__(self):
+        return self.nombre
     
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
@@ -87,32 +110,54 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def __str__(self):
+        return self.nombre
+
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
-    idproducto = models.IntegerField(null=False)
+    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
     # idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
     cantidad = models.IntegerField(null=False)
     precio = models.IntegerField(null=False)
-    mediopedido = models.CharField(max_length=4, choices=VIA_CHOICES, default='3')
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    @property
+    def str_nombre(self):
+        return f"{self.id}, {self.idproducto}, {self.precio}"
+
+    def __str__(self):
+        return self.str_nombre
+    
+
 
 class Pedido(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
+    # id = models.IntegerField(primary_key=True)
+    id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
-    pago_pedido = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING, default=0)
+    metodo_pago = models.CharField(max_length=15, choices=PAGOS_CHOICES, default='Crédito')
     # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
     fecha_pedido = models.DateTimeField(default=timezone.now)
+    mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
+    estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
     deleted = models.BooleanField(default=False)
 
     def delete(self, *args, **kwargs):
         self.deleted = True
         self.save()
 
+    @property
+    def str_nombre(self):
+        return f"{self.idcliente}, {self.fecha_pedido}, {self.estado}"
+
     def __str__(self):
-        return self.id
-
-
-
-    # Completar modelo Pedidos
-    # Forma de pago?
-    # Extender auth.User con lo de cliente
+        return self.str_nombre

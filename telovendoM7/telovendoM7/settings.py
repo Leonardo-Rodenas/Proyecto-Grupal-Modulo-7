@@ -20,7 +20,7 @@ PROJECT_APP_PATH = os.path.dirname(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret! 
 
 SECRET_KEY = ';NnYt$y1`FH5DCh{kzY0]]X*&]~)yVOwzEX{K(haMR+CWjtHQ1'
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_1',
+    'app_2',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'telovendoM7.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app_1', 'templates', 'app_1')],
+ 'DIRS': [os.path.join(BASE_DIR, 'app_1', 'templates', 'app_1'), os.path.join(BASE_DIR, 'app_2', 'templates', 'templates_app') ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,19 +77,19 @@ WSGI_APPLICATION = 'telovendoM7.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    
     # 'default': {
-    #     'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-    #     'NAME' : 'telovendo_db',
-    #     'USER' : 'Completo',
-    #     'PASSWORD' : 'Sevasco-3',
-    #     'HOST' : 'localhost',
-    #     'PORT' : '5432'
-    # }
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
+    
+    'default': {
+        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+        'NAME' : 'telovendo_db',
+        'USER' : 'Completo',
+        'PASSWORD' : 'Sevasco-3',
+        'HOST' : 'localhost',
+        'PORT' : '5432'
+    }
 }
 
 
@@ -132,3 +133,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Configuración de Correo
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.fabricadecodigo.dev'
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'talento@fabricadecodigo.dev'
+EMAIL_HOST_PASSWORD = 'talento.,2023'
