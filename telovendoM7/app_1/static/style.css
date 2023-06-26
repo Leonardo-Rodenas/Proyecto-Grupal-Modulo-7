@@ -1,0 +1,53 @@
+#fondo {
+    background: linear-gradient(220.55deg, #C5EDF5 0%, #4A879A 100%);
+    text-decoration-color: black;
+}
+
+#color_letra_carrusel {
+    color: white;
+}
+
+#carrusel-container {
+    padding: 0 100px
+}
+
+#logo {
+    padding-top: 20px;
+    width: 150px;
+    height: auto;
+    margin: auto;
+    display: block;
+}
+
+#titulo_logo {
+    color: rgb(0, 0, 0);
+    font-weight: bolder;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.img-carrusel {
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo con opacidad */
+    padding: 10px;
+    color: white;
+}
+
+#img_login {
+    width: 100px;
+    height: auto;
+}
+
+#card .card:hover{
+    width: 102%;
+    left: -2.5%;
+    top: -2.5%;
+    font-size: 102%;
+}
+
+
