@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {% block titulo %} Te Lo Vendo - Venta de Productos Electrónicos {% endblock %} </title>
     <!-- Bootstrap y CSS -->
-    <link href="{% static  'style.css' %}" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,17 +71,18 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'telovendo' %}">Inicio</a>
                 </li>
-                {% if not user.is_authenticated %}
+                {% if not usuario.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link text-success" href="{% url 'login' %}">Iniciar sesion</a>
                 </li>
                 {% endif %}
-                {% if groups.name is vendedor %}
                 <li class="nav-item active">
                     <a class="nav-link text-warning" href="{% url 'registro' %}">Registrar usuario</a>
                 </li>
-                {% endif %}
-                {% if user.is_authenticated %}
+                {% if usuario.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="#">Gestión de Productos</a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>

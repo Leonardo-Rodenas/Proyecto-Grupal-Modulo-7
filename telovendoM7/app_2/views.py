@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
+# from django.views.generic.detail import DetailView
+# from .models import Pedido
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -40,3 +42,12 @@ def registrar_usuario(request):
     # If it's a GET request, display the registration form
     return render(request, 'registro.html')
 
+def registrar_pedido(request):
+    if request.method == 'POST':
+        pass
+
+
+# class DetallePedido(DetailView):
+#     model = Pedido
+#     context_object_name = 'pedido'
+#     template_name = 'app_2/templates/app_2/detalle_pedido.html'
