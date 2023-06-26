@@ -39,7 +39,7 @@ PAGOS_CHOICES = [
 
 VIA_CHOICES = [
     ('Telefono', 'Telefono'),
-    ('Email', 'Email'),
+    ('E-mail', 'E-mail'),
     ('Web', 'Web'),
 ]
 

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from django.views.generic.list import ListView
+from .models import Pedido
 
 # Create your views here.
 def index(request):
@@ -16,3 +18,8 @@ class VistaLoginCustom(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('perfil_usuario') # Lugar al que se es redirecionado si el login es exitoso
+
+class ListaPedidos (ListView):
+    model = Pedido
+    template_name = 'app_1/templates/app_1/perfil_usuario.html'
+    context_object_name = 'pedidos'
