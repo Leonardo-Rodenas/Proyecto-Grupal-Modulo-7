@@ -118,14 +118,36 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class DetallePedido(models.Model):
+    id = models.AutoField(primary_key=True)
+    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
+    # idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField(null=False)
+    precio = models.IntegerField(null=False)
+    deleted = models.BooleanField(default=False)
     
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    @property
+    def str_nombre(self):
+        return f"{self.id}, {self.idproducto}, {self.precio}"
+
+    def __str__(self):
+        return self.str_nombre
+    
+
+
 class Pedido(models.Model):
     # id = models.IntegerField(primary_key=True)
-    # id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.DO_NOTHING, default=0)
+    id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
     metodo_pago = models.CharField(max_length=15, choices=PAGOS_CHOICES, default='Crédito')
     # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
     fecha_pedido = models.DateTimeField(default=timezone.now)
+    mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
     estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
     deleted = models.BooleanField(default=False)
 
@@ -139,27 +161,3 @@ class Pedido(models.Model):
 
     def __str__(self):
         return self.str_nombre
-
-
-class DetallePedido(models.Model):
-    id = models.AutoField(primary_key=True)
-    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
-    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
-    cantidad = models.IntegerField(null=False)
-    precio = models.IntegerField(null=False)
-    mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
-    deleted = models.BooleanField(default=False)
-    
-    def delete(self, *args, **kwargs):
-        self.deleted = True
-        self.save()
-
-    @property
-    def str_nombre(self):
-        return f"{self.idpedido}, {self.precio}, {self.mediopedido}"
-
-    def __str__(self):
-        return self.str_nombre
-    
-
-

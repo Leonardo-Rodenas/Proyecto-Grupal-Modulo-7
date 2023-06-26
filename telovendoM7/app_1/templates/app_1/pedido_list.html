@@ -16,9 +16,7 @@
         <th>item</th>
     </tr>
     {% for pedido in pedidos %}
-    <tr>
-        <td> {{pedido.nombre}} </td>
-    </tr>
+    <p>Numero de Pedido: {{pedido.id}} Realizado via: {{pedido.mediopedido}} Estado del pedido: {{pedido.estado}} </p>
     {% empty %}
         <h3>No hay pedidos</h3>
     {% endfor %}

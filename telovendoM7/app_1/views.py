@@ -8,8 +8,8 @@ from .models import Pedido
 def index(request):
     return render(request, 'index.html')
 
-def PerfilUsuario(request):
-    return render(request, 'perfil_usuario.html')
+# def PerfilUsuario(request):
+#     return render(request, 'perfil_usuario.html')
 
 class VistaLoginCustom(LoginView):
     template_name = 'login.html'
@@ -17,9 +17,8 @@ class VistaLoginCustom(LoginView):
     redirect_authenticated_user = True # Rediderciona si el login es exitoso
     
     def get_success_url(self):
-        return reverse_lazy('perfil_usuario') # Lugar al que se es redirecionado si el login es exitoso
+        return reverse_lazy('lista_pedido') # Lugar al que se es redirecionado si el login es exitoso
 
 class ListaPedidos (ListView):
     model = Pedido
-    template_name = 'app_1/templates/app_1/perfil_usuario.html'
     context_object_name = 'pedidos'
