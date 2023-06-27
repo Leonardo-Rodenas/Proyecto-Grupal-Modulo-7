@@ -4,7 +4,8 @@
 {% block content %}
 
 <h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="tipoLetra text-dark">¡¡¡
-    {{user.first_name }} {{ user.last_name }}, Bienvenido a </span><span class="text-white">Te Lo Vendo</span>
+    {{user.username }} {{ user.last_name }}, Bienvenido a </span><span class="text-white">Te Lo
+    Vendo</span>
 </h1>
 
 <hr>
@@ -16,25 +17,38 @@
     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
   </svg> Tomar Pedido</button>
 
+<!-- Colapse ver pedidos -->
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#pedidos" aria-expanded="false"
   aria-controls="collapseExample">
   Mis pedidos:
 </button>
-</p>
 <div class="collapse" id="pedidos">
   <div class="card card-body">
-    {% for pedido in pedidos %}
-    <p>Numero de Pedido: {{pedido.id}} Realizado via: {{pedido.mediopedido}} Estado del pedido: {{pedido.estado}}
-      <button type="button" class="btn btn-primary">
-        Ver Pedido
-      </button>
-    </p>
+    <!-- Colapse estado pedidos -->
+    <div class="container-fluid">
+      {% for pedido in pedidos %}
+      <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#detalle" aria-expanded="false"
+        aria-controls="collapseExample">
+        <b>Pedido N°:</b> {{pedido.id}}
+      </button>     
+      <div class="collapse" id="detalle">
+          <div class="card card-body">
+            <p>
+              <b>Realizado via:</b> {{pedido.mediopedido}} | <b>Estado del pedido:</b> {{pedido.estado}}
+              <a class="btn btn-secondary" href="{% url 'detalle_pedido' pedido.id %}">Ver</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- fin colapse estado pedidos -->
     {% empty %}
     <h3>No hay pedidos</h3>
     {% endfor %}
   </div>
 </div>
-
+<!-- fin colapse ver pedidos -->
 
 
 
@@ -44,20 +58,44 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido (Implementación futura)</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form method=POST>
+          <label for="ususarios">Grupo de usuario:</label>
+          <select id="usuarios" name="usuarios">
+            {% for user in usuarios %}
+            <option value="{{ user.id }}">{{ greruuserusme }}</option>
+            {% endfor %}
+
           <label class="form-clabel" for=""></label>
           <input type="text" class="form-control" id="" name="" required>
           <label class="form-clabel" for=""></label>
           <input type="text" class="form-control" id="" name="" required>
+          
+          class Pedido(models.Model):
+    #id = models.IntegerField(primary_key=True)
+    #id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE)
+    idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
+    metodo_pago = models.CharField(max_length=15, choices=PAGOS_CHOICES, default='Crédito')
+    # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
+    fecha_pedido = models.DateTimeField(default=timezone.now)
+    mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
+    estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
+    deleted = models.BooleanField(default=False)
+class DetallePedido(models.Model):
+    id = models.AutoField(primary_key=True)
+    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
+    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    cantidad = models.IntegerField(null=False)
+    precio = models.IntegerField(null=False)
+    deleted = models.BooleanField(default=False)
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

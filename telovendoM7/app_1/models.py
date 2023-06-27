@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 import uuid
 from django.contrib.auth.models import User,AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 # Manager
 class PublicacionManager(models.Manager):
@@ -69,6 +70,7 @@ class Cliente(AbstractUser):
     def __str__(self):
         return f"{self.username}, "
 
+
 class Direccion(models.Model):  
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
     nombre = models.ForeignKey(Cliente, on_delete=models.CASCADE)
@@ -119,7 +121,7 @@ class Producto(models.Model):
 
 
 class Pedido(models.Model):
-    id = models.IntegerField(primary_key=True)
+    #id = models.IntegerField(primary_key=True)
     #id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE)
     idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
     metodo_pago = models.CharField(max_length=15, choices=PAGOS_CHOICES, default='Crédito')
@@ -135,7 +137,7 @@ class Pedido(models.Model):
 
     @property
     def str_nombre(self):
-        return f"{self.idcliente}, {self.fecha_pedido}, {self.estado}"
+        return f"Pedido N°: {self.id}"
 
     def __str__(self):
         return self.str_nombre

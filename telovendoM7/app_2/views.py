@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
-# from django.views.generic.detail import DetailView
-# from .models import Pedido
+from app_1.models import Cliente
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -16,15 +15,15 @@ def registrar_usuario(request):
 
 
         # Check if the user already exists
-        if User.objects.filter(username=username).exists():
+        if Cliente.objects.filter(username=username).exists():
             return render(request, 'registro.html', {'error': 'El nombre de usuario ya está en uso.'})
 
         # Check if the email already exists
-        if User.objects.filter(email=email).exists():
+        if Cliente.objects.filter(email=email).exists():
             return render(request, 'registro.html', {'error': 'El email ya está en uso.'})
 
         # Create the new user
-        User.objects.create_user(
+        Cliente.objects.create_user(
             username=username, password=password, email=email, first_name=first_name, last_name=last_name)
 
         # Send the email
@@ -46,8 +45,3 @@ def registrar_pedido(request):
     if request.method == 'POST':
         pass
 
-
-# class DetallePedido(DetailView):
-#     model = Pedido
-#     context_object_name = 'pedido'
-#     template_name = 'app_2/templates/app_2/detalle_pedido.html'

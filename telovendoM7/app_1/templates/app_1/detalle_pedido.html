@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>{{pedido}} </h1>
+    <ul style="list-style: none;">
+        <li> Realizado el <b>{{pedido.fecha_pedido}}</b> via <b>{{pedido.mediopedido}}</b></li>
+        <li>Estado: <b>{{pedido.estado}}</b></li>
+    </ul>
+    <h2>Detalle del pedido</h2>
+    
+</div>
+
+{% endblock %}
