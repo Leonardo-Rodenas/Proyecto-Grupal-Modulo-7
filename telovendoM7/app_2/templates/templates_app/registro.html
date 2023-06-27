@@ -8,6 +8,81 @@ Te Lo Vendo - Registro
 {% endblock %}
 
 {% block content %}
+<div class="card container p-3" style="width: 40%;">
+    <p class="fs-1 h1">
+        Registrate para <br>comenzar a AHORRAR
+    </P>
+    <p>
+        <em>
+        Los campos con <span class="text-danger">*</span> son obligatorios.
+        <br>La contraseña sera enviada a su correo electronico, coloque uno que tenga acceso.
+        </em>
+    </p>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="username">Nombre de usuario <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese su nombre">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="rut">
+              RUN
+              <em>
+                  (sin puntos con guión)
+              </em>
+              <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="rut" name="rut" placeholder="Ejemplo: 12345678-9">
+          </div>
+        <div class="form-group col-md-4">
+            <label for="telefono">Telefono 
+                <em>
+                    (Ej: 912345678)
+                </em>
+                <span class="text-danger">*</span></label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingrese su numero de telefono">
+          </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="first_name">Primer nombre <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Ingrese su nombre">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="segundo_nombre">Segundo Nombre</label>
+        <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" placeholder="Ingrese su segundo nombre">
+      </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="last_name">Primer Apellido <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Ingrese su apellido">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="segundo_apellido">Segundo Apellido</label>
+          <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" placeholder="Ingrese su segundo apellido">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="direccion">Dirección <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese su dirección">
+          </div>
+        <div class="form-group col-md-6">
+          <label for="email">Correo electronico <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="sucorreo@ejemplo.com">
+        </div>
+      </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Check me out
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrate</button>
+  </form>
+</div>
 
 <!-- Inicio Registro -->
 <section class="h-100 gradient-form">
@@ -18,77 +93,111 @@ Te Lo Vendo - Registro
                     <div class="row g-0">
                         <div class="col-lg-6">
                             <div class="card bg-glass border-0 m-5">
-                                <div>
-                                    <div class="text-center mb-5">
-                                        <img class="align-self-center ms-4" src="{% static 'img/logo.png' %}"
-                                            alt="icono_navbar" style="width: 50px; height: auto;">
-                                        <h1 class="tipoLetra text-success">
-                                            <span class="text-dark font-size-sm">YO QUIERO OTRO</span>
-                                            <span class="font-size-sm">MUNDO</span>
-                                        </h1>
-                                    </div>
+                                <div class="text-start mb-5">
+
+                                </div>
                                     <div class="row ">
                                         <div class="mb-2 text-end">
                                             <!--inicio formulario-->
-                                            <form method="post">
-                                                {% csrf_token %}
-                                                <label class="fw-bold mb-1  fs-5" for="first_name">Ingresa tu
-                                                    Nombre</label>
-                                                <input type="text" id="first_name" name="first_name"
+                                            <div class="container">
+                                                <form method="post">
+                                                    {% csrf_token %}
+                                                    <p class="fs-6 fw-italic">Los campos con <span class="text-danger">*</span> son obligatorios.</p>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="first_name">
+                                                                Primer Nombre <span class="text-danger">*</span>
+                                                            </label>
+                                                        </p>
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="segundo_nombre">
+                                                                Segundo Nombre
+                                                            </label>
+                                                        </p>
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="last_name">
+                                                                Primer Apellido <span class="text-danger">*</span>
+                                                            </label>                                                            
+                                                        </p>
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="segundo_apellido">
+                                                                Segundo Apellido
+                                                            </label>
+                                                        </p>
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="username">
+                                                                Nombre de usuario <span class="text-danger">*</span>
+                                                            </label>
+                                                        </p>
+                                                        <p>
+                                                            <label class="fw-bold mb-1  fs-5" for="email">
+                                                                Correo electronico <span class="text-danger">*</span>
+                                                            </label>
+                                                        </p>
+                                                </div>
+                                                <div class="col">
+                                                    <p>
+                                                        <input type="text" id="first_name" name="first_name"
                                                     class="form-control" placeholder="Nombre" aria-label="Username"
                                                     aria-describedby="basic-addon1" required>
-                                                <br>
-                                                <label class="fw-bold mb-1  fs-5" for="last_name">Ingresa tu
-                                                    Apellido</label>
-                                                <input type="text" id="last_name" name="last_name" class="form-control"
+                                                    </p>
+                                                    <p>
+                                                        <input type="text" id="last_name" name="last_name" class="form-control"
                                                     placeholder="Apellido" aria-label="Username"
                                                     aria-describedby="basic-addon1" required>
-                                                <br>
-                                                <label class="fw-bold mb-1  fs-5" for="username">Ingresa un nombre de
-                                                    usuario</label>
-                                                <input type="text" id="username" name="username" class="form-control"
+                                                </p>
+                                                    <p>
+                                                        <input type="text" id="username" name="username" class="form-control"
                                                     placeholder="Usuario" aria-label="Username"
                                                     aria-describedby="basic-addon1" required>
-                                                <br>
-                                                <label class="fw-bold mb-1  fs-5" for="email">Ingresa un E-mail</label>
-                                                <input type="email" id="email" name="email" class="form-control"
+                                                </p>
+                                                    <p>
+                                                        <input type="email" id="email" name="email" class="form-control"
                                                     placeholder="E-mail" aria-label="Username"
                                                     aria-describedby="basic-addon1" required>
-
-                                                <div class="text-center mt-3">
-                                                    <input type="submit" class="btn btn-outline-success mb-1"
-                                                        value="Registrate">
+                                                </p>
+                                                    <p>
+                                                        <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="E-mail" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>                                                    </p>
+                                                    <p>
+                                                        <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="E-mail" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+                                                    </p>
+                                                    <p>
+                                                        <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="E-mail" aria-label="Username"
+                                                    aria-describedby="basic-addon1" required>
+                                                    </p>
                                                 </div>
                                             </form>
-
                                             {% if error %}
                                             <p>{{ error }}</p>
                                             {% endif %}
-
+                                            </div>
+                                            <div class="text-start mt-3">
+                                                <input type="submit" class="btn btn-primary mb-1"
+                                                    value="Registrate">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center" id="gradiente_verde">
+                                            <div class="text-white text-center py-4 p-md-5 mx-md-4">
+                                                <h3 class="mb-4 fw-bold">Somos más que solo una empresa</h3>
+                                                <p class="small mb-0 fs-4 mx-4">En “Yo quiero otro Mundo” estamos comprometidos con
+                                                    la causa, y
+                                                    siempre nos la jugamos por lo creemos correcto. </p>
+                                                <div class="card-body border border-light rounded-2 mt-5 bg-success fs-4 mx-4">
+                                                    Regístrate para ser parte de nuestra comunidad y recibir noticias,
+                                                    descuentos en
+                                                    capacitaciones y consejos todas las semanas.
+                                                </div>
+                                            </div>
+                                        </div>
                                             <!--fin formulario-->
-
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-6 d-flex align-items-center" id="gradiente_verde">
-                            <div class="text-white text-center py-4 p-md-5 mx-md-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" fill="white"
-                                    class="bi bi-people" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
-                                </svg>
-                                <h3 class="mb-4 fw-bold">Somos más que solo una empresa</h3>
-                                <p class="small mb-0 fs-4 mx-4">En “Yo quiero otro Mundo” estamos comprometidos con
-                                    la causa, y
-                                    siempre nos la jugamos por lo creemos correcto. </p>
-                                <div class="card-body border border-light rounded-2 mt-5 bg-success fs-4 mx-4">
-                                    Regístrate para ser parte de nuestra comunidad y recibir noticias,
-                                    descuentos en
-                                    capacitaciones y consejos todas las semanas.
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,5 +207,6 @@ Te Lo Vendo - Registro
     </div>
 </section>
 <!-- Fin Registro -->
+
 
 {% endblock %}

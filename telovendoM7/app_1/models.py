@@ -10,24 +10,24 @@ class PublicacionManager(models.Manager):
         return super().get_queryset().filter(deleted=False)
 
 # Create your models here.
-REGIONES_CHOICES = [
-    ('XV', 'Region de Arica y Parinacota'),
-    ('I', 'Region de Tarapaca'),
-    ('II', 'Region de Antofagasta'),
-    ('III', 'Region de Atacama'),
-    ('IV', 'Region de Coquimbo'),
-    ('V', 'Region de Valparaiso'),
-    ('RM', 'Region de Metropolitana'),
-    ('VI', 'Region del Libertador General Bernardo O´Higgins'),
-    ('VII', 'Region del Maule'),
-    ('XVI', 'Region del Ñuble'),
-    ('VIII', 'Region del Biobio'),
-    ('IX', 'Region de La Araucania'),
-    ('XIV', 'Region de Los Rios'),
-    ('X', 'Region de Los Lagos'),
-    ('XI', 'Region de Aysen del General Carlos Ibañez del Campo'),
-    ('XII', 'Region de Magallanes y de la Antartica Chilena'),
-]
+# REGIONES_CHOICES = [
+#     ('XV', 'Region de Arica y Parinacota'),
+#     ('I', 'Region de Tarapaca'),
+#     ('II', 'Region de Antofagasta'),
+#     ('III', 'Region de Atacama'),
+#     ('IV', 'Region de Coquimbo'),
+#     ('V', 'Region de Valparaiso'),
+#     ('RM', 'Region de Metropolitana'),
+#     ('VI', 'Region del Libertador General Bernardo O´Higgins'),
+#     ('VII', 'Region del Maule'),
+#     ('XVI', 'Region del Ñuble'),
+#     ('VIII', 'Region del Biobio'),
+#     ('IX', 'Region de La Araucania'),
+#     ('XIV', 'Region de Los Rios'),
+#     ('X', 'Region de Los Lagos'),
+#     ('XI', 'Region de Aysen del General Carlos Ibañez del Campo'),
+#     ('XII', 'Region de Magallanes y de la Antartica Chilena'),
+# ]
 
 PAGOS_CHOICES = [
     ('Efectivo', 'Efectivo'),
@@ -57,7 +57,7 @@ class Cliente(AbstractUser):
     segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
-    # direccion = models.CharField(max_length=100)
+    direccion = models.CharField(max_length=250, default="NingunLugar")
     telefono = models.IntegerField(null=True,blank=True)
     email = models.EmailField(max_length=50, blank=True)
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
@@ -68,30 +68,30 @@ class Cliente(AbstractUser):
         self.save()
 
     def __str__(self):
-        return f"{self.username}, "
+        return f"{self.username}"
 
 
-class Direccion(models.Model):  
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
-    nombre = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    calle = models.CharField(max_length=100)
-    numero = models.IntegerField()
-    comuna = models.CharField(max_length=50)
-    region = models.CharField(max_length=4, choices=REGIONES_CHOICES)
-    ciudad = models.CharField(max_length=30)
-    referencia = models.CharField(max_length=250, null=True)
-    deleted = models.BooleanField(default=False)
+# class Direccion(models.Model):  
+#     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) --> dejaremos que la ID la genere Django por si solo
+#     nombre = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+#     calle = models.CharField(max_length=100)
+#     numero = models.IntegerField()
+#     comuna = models.CharField(max_length=50)
+#     religion = models.CharField(max_length=4, choices=REGIONES_CHOICES)
+#     ciudad = models.CharField(max_length=30)
+#     referencia = models.CharField(max_length=250, null=True)
+#     deleted = models.BooleanField(default=False)
     
-    def delete(self, *args, **kwargs):
-        self.deleted = True
-        self.save()
+#     def delete(self, *args, **kwargs):
+#         self.deleted = True
+#         self.save()
 
-    @property
-    def str_nombre(self):
-        return f"{self.calle}, {self.comuna}, {self.region}, {self.ciudad}"
+#     @property
+#     def str_nombre(self):
+#         return f"{self.calle}, {self.comuna}, {self.region}, {self.ciudad}"
      
-    def __str__(self):
-        return self.str_nombre    
+#     def __str__(self):
+#         return self.str_nombre    
 
 class Clasificacion(models.Model):
     nombre = models.CharField(max_length=50)
@@ -130,6 +130,7 @@ class Pedido(models.Model):
     mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
     estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
     deleted = models.BooleanField(default=False)
+    precio_total = models.IntegerField(default=0)
 
     def delete(self, *args, **kwargs):
         self.deleted = True

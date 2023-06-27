@@ -27,11 +27,11 @@
     <!-- Colapse estado pedidos -->
     <div class="container-fluid">
       {% for pedido in pedidos %}
-      <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#detalle" aria-expanded="false"
+      <button class="btn btn-warning" type="button" data-toggle="collapse" data-target='#detalles' aria-expanded="false"
         aria-controls="collapseExample">
         <b>Pedido N°:</b> {{pedido.id}}
       </button>     
-      <div class="collapse" id="detalle">
+      <div class="collapse" id='detalles'>
           <div class="card card-body">
             <p>
               <b>Realizado via:</b> {{pedido.mediopedido}} | <b>Estado del pedido:</b> {{pedido.estado}}
@@ -39,15 +39,15 @@
             </p>
           </div>
         </div>
+         {% empty %}
+    <h3>No hay pedidos</h3>
+    {% endfor %}
       </div>
     </div>
 
     <!-- fin colapse estado pedidos -->
-    {% empty %}
-    <h3>No hay pedidos</h3>
-    {% endfor %}
+   
   </div>
-</div>
 <!-- fin colapse ver pedidos -->
 
 
@@ -58,42 +58,41 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido (Implementación futura)</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method=POST>
-          <label for="ususarios">Grupo de usuario:</label>
-          <select id="usuarios" name="usuarios">
-            {% for user in usuarios %}
-            <option value="{{ user.id }}">{{ greruuserusme }}</option>
-            {% endfor %}
-
-          <label class="form-clabel" for=""></label>
-          <input type="text" class="form-control" id="" name="" required>
-          <label class="form-clabel" for=""></label>
-          <input type="text" class="form-control" id="" name="" required>
-          
-          class Pedido(models.Model):
-    #id = models.IntegerField(primary_key=True)
-    #id_detallepedido = models.ForeignKey(DetallePedido, on_delete=models.CASCADE)
-    idcliente = models.ForeignKey(Cliente, on_delete=models.DO_NOTHING, default=0)
-    metodo_pago = models.CharField(max_length=15, choices=PAGOS_CHOICES, default='Crédito')
-    # id_mediopedido = models.ForeignKey(DetallePedido.mediopedido, on_delete=models.DO_NOTHING, default=0)
-    fecha_pedido = models.DateTimeField(default=timezone.now)
-    mediopedido = models.CharField(max_length=15, choices=VIA_CHOICES, default='Web')
-    estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
-    deleted = models.BooleanField(default=False)
-class DetallePedido(models.Model):
-    id = models.AutoField(primary_key=True)
-    idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
-    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
-    cantidad = models.IntegerField(null=False)
-    precio = models.IntegerField(null=False)
-    deleted = models.BooleanField(default=False)
+        <form action="{% url 'registrar_pedido' %}" method=POST>
+          {% csrf_token %}
+          <label for="metodo">Seleccione metodo de pago:</label>
+          <select id="metodo" name="metodo">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Crédito">Crédito</option>
+            <option value="Debito">Debito</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Mach">Mach</option>
+          </select>
+          <br>
+          <label class="form-clabel" for="direccion">Direccion de envio:</label>
+          <input type="text" class="form-control" value="{{user.direccion}}" id="direccion" name="direccion" required>
+          <br>
+          <label for="produc">Seleccione producto:</label>  
+          <select id="produc" name="produc">
+            {% for producto in productos %}
+            <option value="{{producto.id}}">{{producto.nombre}}</option>
+            {%endfor%}
+          </select>
+          <br>
+          <label class="form-clabel" for="cantidad">Ingrese cantidad:</label>
+          <input type="number" value=1 class="form-control" id="cantidad" name="cantidad" required>
+          <br>
+          <input type="submit" value="Ingresar Pedido"class="btn btn-primary" id="" name="" required>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Añadir otro producto</button>
         </form>
       </div>
       <div class="modal-footer">
+
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary">Guardar</button>
       </div>

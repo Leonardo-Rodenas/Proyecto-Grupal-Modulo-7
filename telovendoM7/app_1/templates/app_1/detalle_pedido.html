@@ -1,15 +1,39 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
 <div class="container-fluid">
-    <h1>{{pedido}} </h1>
+    <h1>{{ pedido }}</h1>
     <ul style="list-style: none;">
-        <li> Realizado el <b>{{pedido.fecha_pedido}}</b> via <b>{{pedido.mediopedido}}</b></li>
-        <li>Estado: <b>{{pedido.estado}}</b></li>
+        <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>
+        <li>
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado">
+                <option value="pendiente" {% if pedido.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="en_proceso" {% if pedido.estado == 'en_proceso' %}selected{% endif %}>En proceso</option>
+                <option value="completado" {% if pedido.estado == 'completado' %}selected{% endif %}>Completado</option>
+            </select>
+        </li>
     </ul>
     <h2>Detalle del pedido</h2>
-    
 </div>
+
+<!--Info cliente-->
+<h1>Informacion del Cliente:</h1>
+<p><strong>Usuario:</strong> {{ pedido.idcliente.username }}</p>
+<p><strong>Primer Nombre:</strong> {{ pedido.idcliente.first_name }}</p>
+<p><strong>Segundo Nombre:</strong> {{ pedido.idcliente.segundo_nombre }}</p>
+<p><strong>Primer Apellido:</strong> {{ pedido.idcliente.last_name }}</p>
+<p><strong>Segundo Apellido:</strong> {{ pedido.idcliente.segundo_apellido }}</p>
+<p><strong>Rut:</strong> {{ pedido.idcliente.rut }}</p>
+<p><strong>Teléfono:</strong> {{ pedido.idcliente.telefono }}</p>
+<p><strong>Email:</strong> {{ pedido.idcliente.email }}</p>
+<p><strong>Dirección de envío:</strong> {{ pedido.idcliente.direccion }}</p>
+<!--Info cliente-->
+
+<form method="POST" action="{% url 'detalle_pedido' pedido.id %}">
+    {% csrf_token %}
+    <button type="submit">Cambiar Estado</button>
+</form>
 
 {% endblock %}

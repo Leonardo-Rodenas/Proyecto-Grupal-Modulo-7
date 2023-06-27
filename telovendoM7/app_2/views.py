@@ -2,7 +2,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
-from app_1.models import Cliente
+from app_1.models import Cliente,Pedido,DetallePedido,Producto
+from django.contrib.auth import get_user_model
+
 
 def registrar_usuario(request):
     if request.method == 'POST':
@@ -42,6 +44,28 @@ def registrar_usuario(request):
     return render(request, 'registro.html')
 
 def registrar_pedido(request):
+    actualuser = request.user
+    productos = Producto.objects.all()
+    precio=0
     if request.method == 'POST':
-        pass
+        metodo = request.POST['metodo']
+        direccion= request.POST['direccion']
+        produc = request.POST['produc']
+        cantidad = request.POST['cantidad']
+        
+        for prduct in productos:
+            if str(prduct.id)==produc:
+                precio=int(cantidad)*prduct.precio_venta
+                break
+        actualuser.direccion=direccion
+        actualuser.save()
+        newpedido=Pedido(idcliente=actualuser,metodo_pago=metodo,precio_total=precio)
+        newdetalle=DetallePedido(idproducto=prduct,cantidad=cantidad,precio=precio,idpedido=newpedido)
+        newpedido.save()
+        newdetalle.save()
+            
 
+
+        return redirect('lista_pedido')
+
+   
