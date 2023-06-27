@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col card text-bg-light pt-4 pb-4 pl-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <h2 class="card-tittle text-secondary">Inicio de sesión Te Lo Vendo</h2>
+            <hr class="bg-secondary">
+            {% if error_message %}
+            <p>{{ error_message }}</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-end">
+                            <p><label for="username">Usuario:</label></p>
+                            <p><label for="password">Contraseña:</label></p>
+                        </div>
+                        <div class="col text-start">
+                            <p><input type="text" id="username" name="username" required></p>
+                            <p><input type="password" id="password" name="password" required></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-3">
+                    <input class="btn btn-success" type="submit" value="Iniciar sesión">
+                </div>
+            </form>
+        </div>
+        <div class="col text-center">
+            <img id="img_login" src="{% static 'img/login_image.png' %}" alt="">
+            <h5>Si aun no estas registrado, no espere mas...</h5>
+            <a class="btn btn-primary" href="{% url 'registro' %}">Registrate</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
