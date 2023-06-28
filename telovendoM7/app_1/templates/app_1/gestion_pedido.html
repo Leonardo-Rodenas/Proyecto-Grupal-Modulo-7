@@ -1,0 +1,25 @@
+{%extends "base.html"%}
+{% load static%}
+
+{% block content%}
+
+<Table class="card table">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+        </tr>
+      
+        {% for producto in productos %}
+        <tr>
+          <th scope="row">{{producto.id}}</th>
+          <td>{{producto.nombre}}</td>
+          <td>{{producto.precio_venta}}</td>
+          <td>{{producto.stock}}</td>
+          <td><input type="submit" class="btn btn-primary" value="editar"></td>
+        </tr>
+        {%endfor%}
+</table>
+
+{%endblock%}

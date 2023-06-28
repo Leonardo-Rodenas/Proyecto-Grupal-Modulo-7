@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from .models import Pedido
+from django.views.generic import DetailView
+from django.shortcuts import redirect
+from .models import Pedido, DetallePedido
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import get_object_or_404, redirect
-from django.views.decorators.http import require_POST
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def index(request):
@@ -27,28 +28,22 @@ class VistaLoginCustom(LoginView):
     def get_success_url(self):
         return reverse_lazy('lista_pedido') # Lugar al que se es redirecionado si el login es exitoso
 
-class ListaPedidos (ListView):
+class ListaPedidos (LoginRequiredMixin, ListView):
     model = Pedido
     context_object_name = 'pedidos'
     
-
-class DetallePedido(DetailView):
-    model = Pedido
-    context_object_name = 'pedido'
+class DetallePedido(LoginRequiredMixin, DetailView):
+    model = DetallePedido
+    context_object_name = 'detallepedido'
     template_name = 'app_1/detalle_pedido.html'
 
-    # @require_POST
-    # def cambiar_estado_pedido(self, request, *args, **kwargs):
-    #     pedido = self.get_object()
-    #     nuevo_estado = request.POST.get('estado')
-    #     pedido.estado = nuevo_estado
-    #     pedido.save()
-    #     return redirect('detalle_pedido', pk=pedido.pk)
+    def post(self, request, *args, **kwargs):
+        pedido = self.get_object()
+        nuevo_estado = request.POST.get('estado')
+        pedido.estado = nuevo_estado
+        pedido.save()
+        pedido.refresh_from_db()  # Actualizar el objeto desde la base de datos
+        return redirect('detalle_pedido', pk=pedido.pk)
 
-    # def post(self, request, *args, **kwargs):
-    #     return self.cambiar_estado_pedido(request, *args, **kwargs)
-    
-    # def get(self, request, *args, **kwargs):
-    #     self.object = self.get_object()
-    #     context = self.get_context_data(object=self.object)
-    #     return self.render_to_response(context)
+def gestionProducto(request):
+    return render(request,'app_1/gestion_pedido.html')

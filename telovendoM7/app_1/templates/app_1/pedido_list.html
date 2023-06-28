@@ -4,7 +4,7 @@
 {% block content %}
 
 <h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="tipoLetra text-dark">¡¡¡
-    {{user.username }} {{ user.last_name }}, Bienvenido a </span><span class="text-white">Te Lo
+    {{user.first_name }} {{ user.last_name }}, Bienvenido a </span><span class="text-white">Te Lo
     Vendo</span>
 </h1>
 
@@ -90,11 +90,6 @@
           <input type="submit" value="Ingresar Pedido"class="btn btn-primary" id="" name="" required>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Añadir otro producto</button>
         </form>
-      </div>
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

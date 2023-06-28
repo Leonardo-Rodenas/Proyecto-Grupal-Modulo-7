@@ -57,7 +57,7 @@ class Cliente(AbstractUser):
     segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
-    direccion = models.CharField(max_length=250, default="NingunLugar")
+    direccion = models.CharField(max_length=250)
     telefono = models.IntegerField(null=True,blank=True)
     email = models.EmailField(max_length=50, blank=True)
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
@@ -68,7 +68,7 @@ class Cliente(AbstractUser):
         self.save()
 
     def __str__(self):
-        return f"{self.username}"
+        return f"{self.first_name} {self.last_name}"
 
 
 # class Direccion(models.Model):  
