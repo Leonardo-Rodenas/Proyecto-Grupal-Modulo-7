@@ -79,11 +79,15 @@
                     <a class="nav-link text-warning" href="{% url 'registro' %}">Registrar usuario</a>
                 </li>
                 {% endif %}
-
                 {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="#">Gestión de Productos</a>
+                    <a class="nav-link text-warning" href="{% url 'lista_pedido' %}">Lista Pedido</a>
                 </li>
+                {% if user.is_staff %}
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="{% url 'gestion_producto' %}">Gestión de Productos</a>
+                </li>
+                {% endif%}
                 <li class="nav-item active">
                     <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar sesión</a>
                 </li>

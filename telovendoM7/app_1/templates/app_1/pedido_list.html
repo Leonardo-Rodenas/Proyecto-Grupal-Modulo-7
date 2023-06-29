@@ -2,100 +2,138 @@
 {% load static %}
 
 {% block content %}
-
-<h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="tipoLetra text-dark">¡¡¡
-     {{ user.first_name }} {{ user.last_name }} {{ user.rut }}, Bienvenido a </span><span class="text-white">Te Lo
-    Vendo</span>
+<h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="text-dark">¡Bienvenido <span id="username">{{user.username }}</span> a Te Lo
+    Vendo!</span>
 </h1>
-
 <hr>
-
-<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><svg xmlns="http://www.w3.org/2000/svg"
-    width="20" height="20" data-toggle="modal" data-target="#exampleModal" fill="currentColor"
-    class="bi bi-plus-circle me-3" viewBox="0 0 16 16">
-    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-  </svg> Tomar Pedido</button>
-
-<!-- Colapse ver pedidos -->
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#pedidos" aria-expanded="false"
-  aria-controls="collapseExample">
-  Mis pedidos:
-</button>
-<div class="collapse" id="pedidos">
-  <div class="card card-body">
-    <!-- Colapse estado pedidos -->
-    <div class="container-fluid">
-      {% for pedido in pedidos %}
-      <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#detalle" aria-expanded="false"
-        aria-controls="collapseExample">
-        <b>Pedido N°:</b> {{pedido.id}}
-      </button>     
-      <div class="collapse" id="detalle">
-          <div class="card card-body">
-            <p>
-              <b>Realizado via:</b> {{pedido.mediopedido}} | <b>Estado del pedido:</b> {{pedido.estado}}
-              <a class="btn btn-secondary" href="{% url 'detalle_pedido' pedido.id %}">Ver</a>
-            </p>
-          </div>
-        </div>
-      </div>
+<div class="container-fluid px-5">
+  <div class="row">
+    <div class="col-2"style="margin-top: 3%;">
+      <!-- inicio narbar -->
+      <ul class="nav flex-column bg-light" style="width: 25rem;">
+        <li class="nav-item" style="background-color: rgb(218, 238, 245);">
+          <a id="selected" class="nav-link disabled" href="">Lista de pedidos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Añadir pedido</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li> -->
+      </ul>
+      <!-- fin narbar -->
     </div>
-
-    <!-- fin colapse estado pedidos -->
-    {% empty %}
-    <h3>No hay pedidos</h3>
-    {% endfor %}
+    <div class="col-10">
+      <div class="row">
+        <h2 class="container">LISTA DE PEDIDOS</h1>
+      </div>
+      <div class="row">
+        <!-- inicio tarjeta -->
+        {% for detallepedido in pedidos %}
+        <div class="card container" style="margin-bottom:20px;">
+          <ul class="list-group list-group-flush m-2">
+            <li class="list-group-item m-2">
+              <div class="row">
+                <div class="col-2 mt-3">
+                  <span><b>{{pedido.estado}}</b></span>
+                </div>
+                <div class="col-6 border-right" style="text-align: end;">
+                  <small>Pedido efetuado el: {{ detallepedido.fecha_pedido }}</small>
+                  <br>
+                  <small>Nº de pedido: <span id="idpedido">{{detallepedido.id }}</span><button class="btn btn-link btn-sm" id="copyButton"
+                      onclick="copyToClipboard('{{pedido.id}}')">Copiar</button></small>
+                </div>
+                <div class="col-4" style="text-align: center;">
+                  <a href="{% url 'detalle_pedido' detallepedido.id %}">
+                    <h5 class="mt-3 text-decoration-none" style="font-family: 'Bozon Regular';">Añadir Detalle al pedido >
+                    </h5>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-2">
+                  <figure class="figure">
+                    <img src="{% static 'img/logo.png'%}" class="figure-img img-fluid rounded" alt="...">
+                  </figure>
+                </div>
+                <div class="col-4">
+                  <br>
+                  <p>Producto: {{ detallepedido.nombre }}</p>
+                  <p>Cantidad: {{ detallepedido.cantidad }} un.</p>
+                  <p>Precio: ${{ detallepedido.idpedido.precio_total }}</p>
+                </div>
+                <div class="col-6">
+                  <div class="container">
+                  <br><br>
+                  <button type="button" class="btn btn-secondary btn-sm btn-block disabled rounded-pill">Escribir un comentario</button>
+                  <button type="button" class="btn btn-light btn-sm btn-block disabled rounded-pill">Eliminar</button>                    
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <br>
+        </div>
+        {% empty %}
+        <h3 class="text-center">Actualmente no hay pedidos para mostrar.</h3>
+      {% endfor %}        
+      </div>
+      <!-- fin tarjeta -->
+    </div>
   </div>
 </div>
 </div>
-<!-- fin colapse ver pedidos -->
-
-
-
-<hr>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido (Implementación futura)</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido a:</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method=POST>
+        <form action="{% url 'registrar_pedido' %}" method="POST">
           {% csrf_token %}
-          <label for="metodo">Seleccione metodo de pago:</label>
+          <label for="cliente">Seleccione un cliente:</label>
+          <select id="cliente" name="cliente"> 
+            {% for cliente in clientes %}
+            <option value="{{ cliente.id }}">{{ cliente.first_name }} {{ cliente.last_name }}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <label class="form-clabel" for="direccion">Direccion de envio:</label>
+          <input type="text" class="form-control" value="#cliente" id="direccion" name="direccion" required>
+          <br>
+          <label for="metodo">Metodo de Pago: </label>
           <select id="metodo" name="metodo">
             <option value="Efectivo">Efectivo</option>
             <option value="Transferencia">Transferencia</option>
             <option value="Crédito">Crédito</option>
-            <option value="Debito">Debito</option>
-            <option value="PayPal">PayPal</option>
+            <option value="Débito">Débito</option>
+            <option value="Paypal">Paypal</option>
             <option value="Mach">Mach</option>
           </select>
           <br>
-          <label for="produc">Seleccione producto:</label>  
-          <select id="produc" name="produc">
-            {%for producto in productos %}
-            <option value="{{producto.id}}">{{producto.nombre}}</option>
-            {%endfor%}
+          <label for="medio">Medio de Pedido: </label>
+          <select id="medio" name="medio"> 
+            <option value="Web">Web</option>
+            <option value="Teléfono">Teléfono</option>
+            <option value="Email">Email</option>
           </select>
           <br>
-          <label class="form-clabel" for="cantidad">Ingrese cantidad:</label>
-          <input type="number" value="1"class="form-control" id="cantidad" name="cantidad" required>
+          <input type="submit" value="Ingresar Pedido" class="btn btn-primary" id="" name="" required>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
 </div>
+<script src="{% static 'funtions.js' %}"></script>
+{%block modal%}
+{% endblock %}
 
-<script>
-  $('#myModal').on('shown.bs.modal', function () {
-    $('#myInput').trigger('focus')
-  })</script>
 {% endblock %}
