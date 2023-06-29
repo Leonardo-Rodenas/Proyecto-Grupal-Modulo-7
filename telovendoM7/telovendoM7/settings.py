@@ -22,7 +22,7 @@ PROJECT_APP_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret! 
 
-SECRET_KEY = ';NnYt$y1`FH5DCh{kzY0]]X*&]~)yVOwzEX{K(haMR+CWjtHQ1'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -65,6 +65,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app_1.context_processors.ListaProductos',
+                'app_1.context_processors.ListaClientes',
+                'app_1.context_processors.ListaPedidos',
+                'app_1.context_processors.ListaDetallesPedido',
             ],
         },
     },
@@ -84,11 +88,11 @@ DATABASES = {
     
     'default': {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'telovendo_db',
-        'USER' : 'Completo',
-        'PASSWORD' : 'Sevasco-3',
-        'HOST' : 'localhost',
-        'PORT' : '5432'
+        'NAME' : os.environ.get('DB_NAME'),
+        'USER' : os.environ.get('DB_USER'),
+        'PASSWORD' : os.environ.get('DB_PASSWORD'),
+        'HOST' : os.environ.get('DB_HOST'),
+        'PORT' : os.environ.get('DB_PORT'),
     }
 }
 
@@ -115,9 +119,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-cl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
@@ -142,3 +146,10 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'talento@fabricadecodigo.dev'
 EMAIL_HOST_PASSWORD = 'talento.,2023'
+
+AUTH_USER_MODEL="app_1.Cliente"
+
+LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'login'

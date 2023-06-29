@@ -2,26 +2,139 @@
 {% load static %}
 
 {% block content %}
-
-<h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="tipoLetra text-dark">¡¡¡
-        {{user.first_name }} {{ user.last_name }}, Bienvenido a </span><span class="text-white">Te Lo Vendo</span>
+<h1 class="tipoLetra text-success text-center" style="margin-top: 100px;"> <span class="text-dark">¡Bienvenido <span id="username">{{user.username }}</span> a Te Lo
+    Vendo!</span>
 </h1>
-
 <hr>
-
-<h1>Mis pedidos: </h1>
-
-<table>
-    <tr>
-        <th>item</th>
-    </tr>
-    {% for pedido in pedidos %}
-    <p>Numero de Pedido: {{pedido.id}} Realizado via: {{pedido.mediopedido}} Estado del pedido: {{pedido.estado}} </p>
-    {% empty %}
-        <h3>No hay pedidos</h3>
-    {% endfor %}
-</table>
-
-<hr>
+<div class="container-fluid px-5">
+  <div class="row">
+    <div class="col-2"style="margin-top: 3%;">
+      <!-- inicio narbar -->
+      <ul class="nav flex-column bg-light" style="width: 25rem;">
+        <li class="nav-item" style="background-color: rgb(218, 238, 245);">
+          <a id="selected" class="nav-link disabled" href="">Lista de pedidos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Añadir pedido</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li> -->
+      </ul>
+      <!-- fin narbar -->
+    </div>
+    <div class="col-10">
+      <div class="row">
+        <h2 class="container">LISTA DE PEDIDOS</h1>
+      </div>
+      <div class="row">
+        <!-- inicio tarjeta -->
+        {% for pedido in pedidos %}
+        <div class="card container" style="margin-bottom:20px;">
+          <ul class="list-group list-group-flush m-2">
+            <li class="list-group-item m-2">
+              <div class="row">
+                <div class="col-2 mt-3">
+                  <span><b>{{pedido.estado}}</b></span>
+                </div>
+                <div class="col-6 border-right" style="text-align: end;">
+                  <small>Pedido efetuado el: {{ pedido.fecha_pedido }}</small>
+                  <br>
+                  <small>Nº de pedido: <span id="idpedido">{{pedido.id }}</span><button class="btn btn-link btn-sm" id="copyButton"
+                      onclick="copyToClipboard('{{pedido.id}}')">Copiar</button></small>
+                </div>
+                <div class="col-4" style="text-align: center;">
+                  <a href="#">
+                    <h5 class="mt-3 text-decoration-none" style="font-family: 'Bozon Regular';">Añadir Detalle al pedido >
+                    </h5>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-2">
+                  <figure class="figure">
+                    <img src="{% static 'img/logo.png'%}" class="figure-img img-fluid rounded" alt="...">
+                  </figure>
+                </div>
+                <div class="col-4">
+                  <br>
+                  <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}{%endfor%}</p>
+                  <p>Cantidad: {{ pedido.detallepedido_set.all|length}} un.</p>
+                  <p>Precio: ${{ pedido.precio_total }}</p>
+                  <p>Direccion: {{ pedido.idcliente.direccion }}</p>
+                </div>
+                <div class="col-6">
+                  <div class="container">
+                  <br><br>
+                  <button type="button" class="btn btn-secondary btn-sm btn-block disabled rounded-pill">Escribir un comentario</button>
+                  <button type="button" class="btn btn-light btn-sm btn-block disabled rounded-pill">Eliminar</button>                    
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <br>
+        </div>
+        {% empty %}
+        <h3 class="text-center">Actualmente no hay pedidos para mostrar.</h3>
+      {% endfor %} 
+      </div>
+      <!-- fin tarjeta -->
+    </div>
+  </div>
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido a:</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'registrar_pedido' %}" method="POST">
+          {% csrf_token %}
+          <label for="cliente">Seleccione un cliente:</label>
+          <select id="cliente" name="cliente"> 
+            {% for cliente in clientes %}
+            <option value="{{ cliente.id }}">{{ cliente.first_name }} {{ cliente.last_name }}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <label class="form-clabel" >Direccion de envio:</label>
+          <input type="text" class="form-control" value="{{cliente.direccion}}" id="cliente" name="direccion" required>
+          <br>
+          <label for="metodo">Metodo de Pago: </label>
+          <select id="metodo" name="metodo">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+            <option value="Crédito">Crédito</option>
+            <option value="Débito">Débito</option>
+            <option value="Paypal">Paypal</option>
+            <option value="Mach">Mach</option>
+          </select>
+          <br>
+          <label for="medio">Medio de Pedido: </label>
+          <select id="medio" name="medio"> 
+            <option value="Web">Web</option>
+            <option value="Teléfono">Teléfono</option>
+            <option value="Email">Email</option>
+          </select>
+          <br>
+          <input type="submit" value="Ingresar Pedido" class="btn btn-primary" id="" name="" required>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'funtions.js' %}"></script>
+{%block modal%}
+{% endblock %}
 
 {% endblock %}
