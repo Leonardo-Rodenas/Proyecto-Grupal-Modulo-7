@@ -17,9 +17,10 @@
           <td>{{producto.nombre}}</td>
           <td>{{producto.precio_venta}}</td>
           <td>{{producto.stock}}</td>
-          <td><input type="submit" class="btn btn-primary" value="editar"></td>
+          <td><a href="editarProductos/{{producto.id}}" type="submit" class="btn btn-primary" value="editar">Editar</a></td>
         </tr>
         {%endfor%}
 </table>
-
+{% block modal %}
+{% endblock %}
 {%endblock%}

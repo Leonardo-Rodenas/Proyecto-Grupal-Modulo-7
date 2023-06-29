@@ -4,21 +4,23 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
 from django.shortcuts import redirect
-from .models import Pedido, DetallePedido
+from .models import Pedido, DetallePedido,Cliente,Producto
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
-User = get_user_model()
+user = get_user_model()
 
 class FormularioRegistroUsuarioPersonalizado(UserCreationForm):
     class Meta:
-        model = User
+        model = user
         fields = ['username', 'email']
 
 class VistaLoginCustom(LoginView):
@@ -28,13 +30,17 @@ class VistaLoginCustom(LoginView):
     def get_success_url(self):
         return reverse_lazy('lista_pedido') # Lugar al que se es redirecionado si el login es exitoso
 
-class ListaPedidos (LoginRequiredMixin, ListView):
-    model = Pedido
-    context_object_name = 'pedidos'
-    
+# class ListaPedidos (LoginRequiredMixin, ListView):
+#     model = DetallePedido
+#     context_object_name = 'detallepedidos'
+#     template_name = 'app_1/pedido_list.html'
+
+def ListaPedidos(request):
+    return render(request, 'pedido_list.html')
+   
 class DetallePedido(LoginRequiredMixin, DetailView):
     model = DetallePedido
-    context_object_name = 'detallepedido'
+    context_object_name = 'detallepedio'
     template_name = 'app_1/detalle_pedido.html'
 
     def post(self, request, *args, **kwargs):
@@ -45,5 +51,14 @@ class DetallePedido(LoginRequiredMixin, DetailView):
         pedido.refresh_from_db()  # Actualizar el objeto desde la base de datos
         return redirect('detalle_pedido', pk=pedido.pk)
 
+def is_staff(Cliente):
+    return Cliente.is_staff 
+
+@user_passes_test(is_staff)
 def gestionProducto(request):
-    return render(request,'app_1/gestion_pedido.html')
+    users = Cliente.objects.all()
+    return render(request,'app_1/gestion_producto.html')
+
+def editarProducto(request,id):
+    produc=Producto.objects.get(id=id)
+    return render(request,"editar_producto.html",{"producto":produc})

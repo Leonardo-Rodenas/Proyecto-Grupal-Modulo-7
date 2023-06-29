@@ -1,7 +1,17 @@
-{% extends "base.html" %}
+{% extends "pedido_list.html" %}
 {% load static %}
 
-{% block content %}
+{% block modal %}
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
 <div class="container-fluid">
     <h1>{{ detallepedido.idpedido }}</h1>
     <ul style="list-style: none;">
@@ -14,7 +24,7 @@
 <!--Info cliente-->
 <div class="card">
 <h1>Informacion del Cliente:</h1>
-<p><strong>Usuario:</strong> {{ detallepedido.idpedido.idcliente.username }}</p>
+<p><strong>Usuario:</strong> {{ detallepedido.idpedido.idcliente.username }}</p> 
 <p><strong>Primer Nombre:</strong> {{ detallepedido.idpedido.idcliente.first_name }}</p>
 <p><strong>Segundo Nombre:</strong> {{ detallepedido.idpedido.idcliente.segundo_nombre }}</p>
 <p><strong>Primer Apellido:</strong> {{ detallepedido.idpedido.idcliente.last_name }}</p>
@@ -25,8 +35,8 @@
 <p><strong>Dirección de envío:</strong> {{ detallepedido.idpedido.idcliente.direccion }}</p>
 <p><strong>Estado de envío:</strong> {{ detallepedido.idpedido.estado }}</p>
 </div>
-<p>Gracias por comprar en Te Lo Vendo. Si compraste antes de las 12:00 PM tu pedido será enviado el mismo dia y llegará a tu hogar en 1 día (RM) o 5 días (regiones). El courier de 
-    despacho es Starken. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega.
+<p><small style="text-align: justify;">Gracias por comprar en Te Lo Vendo. Si realizaste tu compra antes de las 12:00 PM tu pedido será enviado el mismo dia y llegará a tu hogar en 1 día (RM) o 5 días (regiones). Nuestro courrier de 
+    despacho es Repartos patito. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega.</small>
 </p>
 <ul>
     <strong>Detalle del pedido:</strong> 
@@ -37,7 +47,7 @@
 </ul>
 <!--Info cliente-->
 {% if user.is_staff or user.is_superuser %}
-<form method="POST" action="{% url 'detalle_pedido' detallepedido.idpedido.id %}">
+{% comment %} <form method="POST" action="{% url 'detalle_pedido' detallepedido.idpedido.id %}"> {% endcomment %}
     {% csrf_token %}
     <ul>
         <li>
@@ -56,6 +66,15 @@
 </form>
 {% endif %}
 
+
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+     <button type="button" class="btn btn-primary">Understood</button>
+   </div>
+ </div>
+</div>
+</div>
 <script language="javascript">
     function activa_boton(campo,boton){
        if (campo.value != "0"){
@@ -65,4 +84,18 @@
        }
    }
    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+      window.addEventListener('load', function() {
+      console.log('La página ha terminado de cargarse!!');
+  });
+      $( document ).ready(function() {$('#staticBackdrop').modal('toggle')});</script>
+      <script>$('#staticBackdrop').on('shown.bs.modal', function () {$( document ).ready('focus')});</script>
+        <script>$(document).ready(function(){$("#staticBackdrop").modal("show");});</script>
+     <script type="text/javascript">
+      $(document).ready(function(){
+          $(".modal").hide(0).delay(0).fadeIn(2000)
+      });
+  </script>
+  
 {% endblock %}
