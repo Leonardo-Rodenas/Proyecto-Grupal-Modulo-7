@@ -32,7 +32,7 @@
       </div>
       <div class="row">
         <!-- inicio tarjeta -->
-        {% for detallepedido in pedidos %}
+        {% for pedido in pedidos %}
         <div class="card container" style="margin-bottom:20px;">
           <ul class="list-group list-group-flush m-2">
             <li class="list-group-item m-2">
@@ -41,13 +41,13 @@
                   <span><b>{{pedido.estado}}</b></span>
                 </div>
                 <div class="col-6 border-right" style="text-align: end;">
-                  <small>Pedido efetuado el: {{ detallepedido.fecha_pedido }}</small>
+                  <small>Pedido efetuado el: {{ pedido.fecha_pedido }}</small>
                   <br>
-                  <small>Nº de pedido: <span id="idpedido">{{detallepedido.id }}</span><button class="btn btn-link btn-sm" id="copyButton"
+                  <small>Nº de pedido: <span id="idpedido">{{pedido.id }}</span><button class="btn btn-link btn-sm" id="copyButton"
                       onclick="copyToClipboard('{{pedido.id}}')">Copiar</button></small>
                 </div>
                 <div class="col-4" style="text-align: center;">
-                  <a href="{% url 'detalle_pedido' detallepedido.id %}">
+                  <a href="#">
                     <h5 class="mt-3 text-decoration-none" style="font-family: 'Bozon Regular';">Añadir Detalle al pedido >
                     </h5>
                   </a>
@@ -63,9 +63,10 @@
                 </div>
                 <div class="col-4">
                   <br>
-                  <p>Producto: {{ detallepedido.nombre }}</p>
-                  <p>Cantidad: {{ detallepedido.cantidad }} un.</p>
-                  <p>Precio: ${{ detallepedido.idpedido.precio_total }}</p>
+                  <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}{%endfor%}</p>
+                  <p>Cantidad: {{ pedido.detallepedido_set.all|length}} un.</p>
+                  <p>Precio: ${{ pedido.precio_total }}</p>
+                  <p>Direccion: {{ pedido.idcliente.direccion }}</p>
                 </div>
                 <div class="col-6">
                   <div class="container">
@@ -81,7 +82,7 @@
         </div>
         {% empty %}
         <h3 class="text-center">Actualmente no hay pedidos para mostrar.</h3>
-      {% endfor %}        
+      {% endfor %} 
       </div>
       <!-- fin tarjeta -->
     </div>
@@ -106,8 +107,8 @@
             {% endfor %}
           </select>
           <br>
-          <label class="form-clabel" for="direccion">Direccion de envio:</label>
-          <input type="text" class="form-control" value="#cliente" id="direccion" name="direccion" required>
+          <label class="form-clabel" >Direccion de envio:</label>
+          <input type="text" class="form-control" value="{{cliente.direccion}}" id="cliente" name="direccion" required>
           <br>
           <label for="metodo">Metodo de Pago: </label>
           <select id="metodo" name="metodo">

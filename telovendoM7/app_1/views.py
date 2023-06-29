@@ -36,7 +36,13 @@ class VistaLoginCustom(LoginView):
 #     template_name = 'app_1/pedido_list.html'
 
 def ListaPedidos(request):
+   # pedidos=Pedido.objects.all()
+    #detallepedido=[]
+    #for pedido in pedidos:
+    #    detallepedido.append(pedido.detallepedido_set.all())
+
     return render(request, 'pedido_list.html')
+    #,{'detallepedidos':detallepedido})
    
 class DetallePedido(LoginRequiredMixin, DetailView):
     model = DetallePedido

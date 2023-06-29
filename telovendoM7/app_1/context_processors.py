@@ -14,5 +14,10 @@ def ListaPedidos(request):
     return{'pedidos': pedido}
 
 def ListaDetallesPedido(request):
-    detallepedido = DetallePedido.objects.all()
-    return{'detallepedidos':detallepedido}
+    pedidos= Pedido.objects.all()
+    dp=[]
+    for pedido in pedidos:
+        detallepedidos=pedido.detallepedido_set.all()
+        for detallepedido in detallepedidos:
+            dp.append(detallepedido)
+    return{'detallepedidos':dp}
