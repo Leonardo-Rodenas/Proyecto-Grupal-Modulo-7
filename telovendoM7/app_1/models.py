@@ -106,7 +106,7 @@ class Clasificacion(models.Model):
     
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
-    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
+    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=100)
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
@@ -146,7 +146,7 @@ class Pedido(models.Model):
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
     idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
-    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    idpedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     cantidad = models.IntegerField(null=False)
     precio = models.IntegerField(null=False)
     deleted = models.BooleanField(default=False)

@@ -46,11 +46,12 @@ def registrar_usuario(request):
 def registrar_pedido(request):
     if request.method == 'POST':
         id = request.POST['cliente']
+        print(id)
         direccion = request.POST['direccion']
         cliente = Cliente.objects.get(id=id)
         metodo = request.POST['metodo']
         medio = request.POST['medio']
-        pedido=Pedido(metodo_pago=metodo,mediopedido=medio)
+        pedido=Pedido(metodo_pago=metodo,mediopedido=medio,idcliente=cliente)
         pedido.save()
         cliente.direccion = direccion
         cliente.save()

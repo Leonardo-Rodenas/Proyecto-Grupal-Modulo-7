@@ -16,7 +16,7 @@
         <form action="{% url 'edicion_producto' %}" method=POST>
           {% csrf_token %}
           <label class="form-clabel" for="id">Identificador:</label>
-          <input type="text" class="form-control" value="{{producto.id}}" id="id" name="id" readonly required>
+          <input type="hidden" class="form-control" value="{{producto.id}}" id="id" name="id" readonly required>
           <label class="form-clabel" for="precio">Nombre:</label>
           <input type="text" class="form-control" value="{{producto.nombre}}" id="nombre" name="nombre" required>
           <label class="form-clabel" for="precio">Precio:</label>

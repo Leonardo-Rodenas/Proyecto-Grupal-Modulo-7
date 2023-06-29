@@ -40,13 +40,14 @@ def ListaPedidos(request):
     #detallepedido=[]
     #for pedido in pedidos:
     #    detallepedido.append(pedido.detallepedido_set.all())
+     
 
     return render(request, 'pedido_list.html')
     #,{'detallepedidos':detallepedido})
    
 class DetallePedido(LoginRequiredMixin, DetailView):
-    model = DetallePedido
-    context_object_name = 'detallepedio'
+    model = Pedido
+    context_object_name = 'pedido'
     template_name = 'app_1/detalle_pedido.html'
 
     def post(self, request, *args, **kwargs):
@@ -59,6 +60,9 @@ class DetallePedido(LoginRequiredMixin, DetailView):
 
 def is_staff(Cliente):
     return Cliente.is_staff 
+
+def CrearDetalle(request):
+    pass
 
 @user_passes_test(is_staff)
 def gestionProducto(request):

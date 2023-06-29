@@ -6,52 +6,55 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h2 class="modal-title" id="staticBackdropLabel">Detalle del Pedido:</h2>
+          <button type="button" class="close" data-dismiss="modal" onclick="history.back()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
 <div class="container-fluid">
-    <h1>{{ detallepedido.idpedido }}</h1>
+    <h1>Pedido N°: {{ pedido.id }}</h1>
     <ul style="list-style: none;">
-        <li>Realizado el <b>{{ detallepedido.idpedido.fecha_pedido }}</b> via <b>{{ detallepedido.idpedido.mediopedido }}</b></li>
-        
+        <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>    
     </ul>
-    <h2>Detalle del pedido</h2>
 </div>
 
 <!--Info cliente-->
 <div class="card">
-<h1>Informacion del Cliente:</h1>
-<p><strong>Usuario:</strong> {{ detallepedido.idpedido.idcliente.username }}</p> 
-<p><strong>Primer Nombre:</strong> {{ detallepedido.idpedido.idcliente.first_name }}</p>
-<p><strong>Segundo Nombre:</strong> {{ detallepedido.idpedido.idcliente.segundo_nombre }}</p>
-<p><strong>Primer Apellido:</strong> {{ detallepedido.idpedido.idcliente.last_name }}</p>
-<p><strong>Segundo Apellido:</strong> {{ detallepedido.idpedido.idcliente.segundo_apellido }}</p>
-<p><strong>Rut:</strong> {{ detallepedido.idpedido.idcliente.rut }}</p>
-<p><strong>Teléfono:</strong> {{ detallepedido.idpedido.idcliente.telefono }}</p>
-<p><strong>Email:</strong> {{ detallepedido.idpedido.idcliente.email }}</p>
-<p><strong>Dirección de envío:</strong> {{ detallepedido.idpedido.idcliente.direccion }}</p>
-<p><strong>Estado de envío:</strong> {{ detallepedido.idpedido.estado }}</p>
+<h2>Informacion del Cliente:</h2>
+<p><strong>Usuario:</strong> {{ pedido.idcliente.username }}</p> 
+<p><strong>Primer Nombre:</strong> {{ pedido.idcliente.first_name }}</p>
+<p><strong>Segundo Nombre:</strong> {{ pedido.idcliente.segundo_nombre }}</p>
+<p><strong>Primer Apellido:</strong> {{ pedido.idcliente.last_name }}</p>
+<p><strong>Segundo Apellido:</strong> {{ pedido.idcliente.segundo_apellido }}</p>
+<p><strong>Rut:</strong> {{ pedido.idcliente.rut }}</p>
+<p><strong>Teléfono:</strong> {{ pedido.idcliente.telefono }}</p>
+<p><strong>Email:</strong> {{ pedido.idcliente.email }}</p>
+<p><strong>Dirección de envío:</strong> {{ pedido.idcliente.direccion }}</p>
+<p><strong>Estado de envío:</strong> {{ pedido.estado }}</p>
 </div>
 <p><small style="text-align: justify;">Gracias por comprar en Te Lo Vendo. Si realizaste tu compra antes de las 12:00 PM tu pedido será enviado el mismo dia y llegará a tu hogar en 1 día (RM) o 5 días (regiones). Nuestro courrier de 
     despacho es Repartos patito. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega.</small>
 </p>
+<h3>Pedidos</h3>
+{% for detalle in pedido.detallepedido_set.all %}
 <ul>
     <strong>Detalle del pedido:</strong> 
-    <li>{{ detallepedido.idproducto.nombre }}</li>
-    <li>{{ detallepedido.cantidad }}</li>
-    <li>{{ detallepedido.precio }}</li>
-    <li>{{ detallepedido.idpedido.precio_total }}</li>
+    <li>{{ detalle.idproducto.nombre }}</li>
+    <li>{{ detalle.cantidad }}</li>
+    <li>{{ detalle.precio }}</li>
+    <a href="editarDetalle/{{detalle.id}}" type="submit" class="btn btn-primary" >Editar</a>
 </ul>
+{%endfor%}
+<a href="CrearDetalle/{{pedido.id}}" type="submit" class="btn btn-primary" >Añadir Detalle al pedido</a>
 <!--Info cliente-->
 {% if user.is_staff or user.is_superuser %}
-{% comment %} <form method="POST" action="{% url 'detalle_pedido' detallepedido.idpedido.id %}"> {% endcomment %}
+<form method="POST" action=""> 
+
     {% csrf_token %}
     <ul>
         <li>
-             <label for="estado">Estado:</label>
+            <label for="estado">Estado:</label>
             <select id="estado" name="estado" onChange="activa_boton(this,this.form.boton)">
                 <option value="0" selected>Selecciona un estado</option>
                 <option value="Pendiente" {% if pedido.estado == 'Pendiente' %}{% endif %}>Pendiente</option>
@@ -62,15 +65,10 @@
         </li>
     </ul>
     <input class="btn btn-secondary" type="button" onclick="history.back()" name="Volver atras" value="Volver atras">
-    <input class="btn btn-primary" type="submit" name="boton" id="boton" value="Actualizar pedido" disabled=true>
+    <input class="btn btn-primary" type="submit" name="boton" id="boton" value="Actualizar pedido" disabled="false">
 </form>
 {% endif %}
 
-
-   </div>
-   <div class="modal-footer">
-     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-     <button type="button" class="btn btn-primary">Understood</button>
    </div>
  </div>
 </div>

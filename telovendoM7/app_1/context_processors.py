@@ -11,7 +11,8 @@ def ListaClientes(request):
 
 def ListaPedidos(request):
     pedido = Pedido.objects.all()
-    return{'pedidos': pedido}
+    pedidos=list(reversed(pedido))
+    return{'pedidos': pedidos}
 
 def ListaDetallesPedido(request):
     pedidos= Pedido.objects.all()
