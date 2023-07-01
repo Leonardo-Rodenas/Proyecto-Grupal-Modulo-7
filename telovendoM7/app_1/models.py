@@ -59,9 +59,12 @@ class Cliente(AbstractUser):
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
     direccion = models.CharField(max_length=250)
     telefono = models.IntegerField(null=True,blank=True)
-    email = models.EmailField(max_length=50, blank=True)
+    email = models.EmailField(max_length=50, blank=True, unique=True, verbose_name='email')
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
     deleted = models.BooleanField(default=False)
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    USERNAME_FIELD = 'email'
+
 
     def delete(self, *args, **kwargs):
         self.deleted = True

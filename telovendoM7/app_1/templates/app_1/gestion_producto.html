@@ -3,7 +3,7 @@
 
 {% block content%}
 
-<Table class="card table">
+<Table class="card table" id="gestionproducto">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
@@ -17,7 +17,7 @@
           <td>{{producto.nombre}}</td>
           <td>{{producto.precio_venta}}</td>
           <td>{{producto.stock}}</td>
-          <td><a href="editarProductos/{{producto.id}}" type="submit" class="btn btn-primary" value="editar">Editar</a></td>
+          <td><a href="{% url 'edita_producto' producto.id %}" type="submit" class="btn btn-primary" value="editar">Editar</a></td>
         </tr>
         {%endfor%}
 </table>

@@ -6,27 +6,28 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title" id="staticBackdropLabel">Detalle del Pedido:</h2>
+          <h2 class="modal-title" id="staticBackdropLabel">Pedido N°: {{ pedido.id }}</h2>
+          <ul style="list-style: none;">
+        <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>    
+    </ul>
           <button type="button" class="close" data-dismiss="modal" onclick="history.back()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-<div class="container-fluid">
-    <h1>Pedido N°: {{ pedido.id }}</h1>
-    <ul style="list-style: none;">
-        <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>    
-    </ul>
-</div>
 
 <!--Info cliente-->
 <div class="card">
 <h2>Informacion del Cliente:</h2>
-<p><strong>Usuario:</strong> {{ pedido.idcliente.username }}</p> 
-<p><strong>Primer Nombre:</strong> {{ pedido.idcliente.first_name }}</p>
-<p><strong>Segundo Nombre:</strong> {{ pedido.idcliente.segundo_nombre }}</p>
-<p><strong>Primer Apellido:</strong> {{ pedido.idcliente.last_name }}</p>
-<p><strong>Segundo Apellido:</strong> {{ pedido.idcliente.segundo_apellido }}</p>
+<p><strong>Usuario:</strong> 
+    {% if pedido.idcliente.username != none %}{{ pedido.idcliente.username }}{%endif %}
+</p>
+<p><strong>Nombre Completo:</strong> 
+    {% if pedido.idcliente.first_name != none %}{{ pedido.idcliente.first_name }}{%endif %}
+    {% if pedido.idcliente.segundo_nombre != none %}{{ pedido.idcliente.segundo_nombre }}{%endif %}
+    {% if pedido.idcliente.last_name != none %}{{ pedido.idcliente.last_name }}{%endif %}
+    {% if pedido.idcliente.segundo_apellido != none %}{{ pedido.idcliente.segundo_apellido }}{%endif %}
+</p>
 <p><strong>Rut:</strong> {{ pedido.idcliente.rut }}</p>
 <p><strong>Teléfono:</strong> {{ pedido.idcliente.telefono }}</p>
 <p><strong>Email:</strong> {{ pedido.idcliente.email }}</p>
@@ -40,13 +41,12 @@
 {% for detalle in pedido.detallepedido_set.all %}
 <ul>
     <strong>Detalle del pedido:</strong> 
-    <li>{{ detalle.idproducto.nombre }}</li>
-    <li>{{ detalle.cantidad }}</li>
-    <li>{{ detalle.precio }}</li>
-    <a href="editarDetalle/{{detalle.id}}" type="submit" class="btn btn-primary" >Editar</a>
+    <li>{{ detalle.idproducto.nombre }} x {{ detalle.cantidad }} Valor: ${{ detalle.precio }}
+        <a href="{% url 'editar_detalle' detalle.id %}" type="submit" class="btn btn-primary" >Editar</a></li>
+    
 </ul>
 {%endfor%}
-<a href="CrearDetalle/{{pedido.id}}" type="submit" class="btn btn-primary" >Añadir Detalle al pedido</a>
+<a href="{% url 'crear_detalle' pedido.id %}" type="submit" class="btn btn-primary" >Añadir Detalle al pedido</a>
 <!--Info cliente-->
 {% if user.is_staff or user.is_superuser %}
 <form method="POST" action=""> 
