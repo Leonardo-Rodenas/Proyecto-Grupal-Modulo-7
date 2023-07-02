@@ -14,15 +14,11 @@
         <li class="nav-item" style="background-color: rgb(218, 238, 245);">
           <a id="selected" class="nav-link disabled" href="">Lista de pedidos</a>
         </li>
+        {% if user.is_staff or user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Añadir pedido</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li> -->
-        <!-- <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li> -->
+        {% endif %}
       </ul>
       <!-- fin narbar -->
     </div>
@@ -41,16 +37,18 @@
                   <span><b>{{pedido.estado}}</b></span>
                 </div>
                 <div class="col-6 border-right" style="text-align: end;">
-                  <small>Pedido efetuado el: {{ pedido.fecha_pedido }}</small>
+                  <small>Pedido efectuado el: {{ pedido.fecha_pedido }}</small>
                   <br>
                   <small>Nº de pedido: <span id="idpedido">{{pedido.id }}</span><button class="btn btn-link btn-sm" id="copyButton"
                       onclick="copyToClipboard('{{pedido.id}}')">Copiar</button></small>
                 </div>
                 <div class="col-4" style="text-align: center;">
-                  <a href="#">
-                    <h5 class="mt-3 text-decoration-none" style="font-family: 'Bozon Regular';">Añadir Detalle al pedido >
+                  {% if user.is_staff or user.is_superuser %}
+                  <a href="{% url 'detalle_pedido' pedido.id %}">
+                    <h5 class="mt-3 text-decoration-none" style="font-family: 'Bozon Regular';">Ver Detalles del pedido >
                     </h5>
                   </a>
+                  {% endif %}
                 </div>
               </div>
             </li>
@@ -63,8 +61,9 @@
                 </div>
                 <div class="col-4">
                   <br>
-                  <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}{%endfor%}</p>
-                  <p>Cantidad: {{ pedido.detallepedido_set.all|length}} un.</p>
+                  <p>Usuario: {{ pedido.idcliente.first_name }} {{ pedido.idcliente.last_name }}</p>
+                  <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}({{pedi.cantidad}}){%endfor%}</p>
+                  <!--<p>Cantidad de Empaques: {{ pedido.detallepedido_set.all|length}} un.</p> -->
                   <p>Precio: ${{ pedido.precio_total }}</p>
                   <p>Direccion: {{ pedido.idcliente.direccion }}</p>
                 </div>

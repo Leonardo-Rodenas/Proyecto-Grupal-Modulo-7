@@ -149,7 +149,7 @@ EMAIL_HOST_PASSWORD = 'talento.,2023'
 
 AUTH_USER_MODEL="app_1.Cliente"
 
-LOGIN_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = 'telovendo'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'login'

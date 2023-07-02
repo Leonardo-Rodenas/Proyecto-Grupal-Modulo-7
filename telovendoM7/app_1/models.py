@@ -59,9 +59,12 @@ class Cliente(AbstractUser):
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
     direccion = models.CharField(max_length=250)
     telefono = models.IntegerField(null=True,blank=True)
-    email = models.EmailField(max_length=50, blank=True)
+    email = models.EmailField(max_length=50, blank=True, unique=True, verbose_name='email')
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
     deleted = models.BooleanField(default=False)
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    USERNAME_FIELD = 'email'
+
 
     def delete(self, *args, **kwargs):
         self.deleted = True
@@ -106,7 +109,7 @@ class Clasificacion(models.Model):
     
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
-    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.CASCADE)
+    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=100)
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
@@ -146,7 +149,7 @@ class Pedido(models.Model):
 class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
     idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
-    idpedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    idpedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     cantidad = models.IntegerField(null=False)
     precio = models.IntegerField(null=False)
     deleted = models.BooleanField(default=False)

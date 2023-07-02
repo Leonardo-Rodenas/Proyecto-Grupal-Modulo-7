@@ -50,13 +50,11 @@ def registrar_pedido(request):
         cliente = Cliente.objects.get(id=id)
         metodo = request.POST['metodo']
         medio = request.POST['medio']
-        pedido=Pedido(metodo_pago=metodo,mediopedido=medio)
+        pedido=Pedido(metodo_pago=metodo,mediopedido=medio,idcliente=cliente)
         pedido.save()
         cliente.direccion = direccion
         cliente.save()
-        return redirect('lista_pedido')
-    
-    return render(request, 'pedido_list.html')
+        return redirect('detalle_pedido', pedido.id )
 
 def edicionProducto(request):
     if request.method == 'POST':
@@ -70,7 +68,23 @@ def edicionProducto(request):
         productoedit.stock=stock
         productoedit.save()
         return redirect('gestion_producto')
+    return redirect('gestion_producto')
 
+
+def CreacionDetalle(request,id):
+    if request.method == 'POST':
+        idproducto = request.POST['producto']
+        pedido = Pedido.objects.get(id=id)
+        producto = Producto.objects.get(id=idproducto)
+        cantidad = request.POST['cantidad']
+        precio=int(cantidad)*int(producto.precio_venta)
+        newdetalle=DetallePedido(idpedido=pedido,idproducto=producto,cantidad=cantidad,precio=precio)
+        newdetalle.save()
+        producto.stock=producto.stock-int(cantidad)
+        producto.save()
+        pedido.precio_total=precio+pedido.precio_total
+        pedido.save()
+    return redirect('detalle_pedido',id)
 
 #class ListaTareas(LoginRequiredMixin, ListView):
    # model = Tarea # Modelo a utilizar

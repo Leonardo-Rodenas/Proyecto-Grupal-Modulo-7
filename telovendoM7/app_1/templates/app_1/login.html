@@ -14,12 +14,20 @@
                 {% csrf_token %}
                 <div class="container">
                     <div class="row">
+                        <!-- <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                        </div> -->
                         <div class="col text-end">
-                            <p><label for="username">Usuario:</label></p>
+                            <p><label for="username">Correo electrónico:</label></p>
                             <p><label for="password">Contraseña:</label></p>
                         </div>
                         <div class="col text-start">
-                            <p><input type="text" id="username" name="username" required></p>
+                            <p><input type="email" id="username" name="username" required></p>
                             <p><input type="password" id="password" name="password" required></p>
                         </div>
                     </div>
