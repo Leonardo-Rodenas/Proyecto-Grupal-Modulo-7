@@ -54,7 +54,7 @@ def registrar_pedido(request):
         pedido.save()
         cliente.direccion = direccion
         cliente.save()
-        return redirect('crear_detalle')
+        return redirect('detalle_pedido', pedido.id )
 
 def edicionProducto(request):
     if request.method == 'POST':
