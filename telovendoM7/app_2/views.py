@@ -72,6 +72,7 @@ def edicionProducto(request):
 
 
 def CreacionDetalle(request,id):
+    useractual=request.user
     if request.method == 'POST':
         idproducto = request.POST['producto']
         pedido = Pedido.objects.get(id=id)
@@ -83,6 +84,8 @@ def CreacionDetalle(request,id):
         producto.stock=producto.stock-int(cantidad)
         producto.save()
         pedido.precio_total=precio+pedido.precio_total
+        if useractual.is_staff:
+            pedido.pedido_staff=True   
         pedido.save()
     return redirect('detalle_pedido',id)
 

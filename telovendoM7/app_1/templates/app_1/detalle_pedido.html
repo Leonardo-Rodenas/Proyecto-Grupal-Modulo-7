@@ -46,6 +46,7 @@
             <option value="Entregado"{% if pedido.estado == 'Entregado' %}{% endif %}>Entregado</option>
         </select>
         {% endif  %}
+      </form>
         <div class="text-center mt-3">
         </div>
 </div>
@@ -53,15 +54,16 @@
 
 {% for detalle in pedido.detallepedido_set.all %}
 <ul> 
-    <li>{{ detalle.idproducto.nombre }} x {{ detalle.cantidad }} Valor: ${{ detalle.precio }}
-        <a href="{% url 'editar_detalle' detalle.id %}" type="hidden" class="btn btn-primarybtn-sm" ></a></li>
+    <li>{{ detalle.idproducto.nombre }} x {{ detalle.cantidad }} Valor: ${{ detalle.precio }}</a></li>
 </ul>
 {%endfor%}
 <ul>
 <li class="text-end mb-3"> <b>Total a pagar: ${{pedido.precio_total}}</b></li>
 </ul>
 <div class="mb-3" style="text-align: center;">
-<a href="{% url 'crear_detalle' pedido.id %}" type="submit" class="btn btn-primary" >Añadir Producto</a>
+{%if pedido.is_modificable or user.is_staff %}
+  <a href="{% url 'crear_detalle' pedido.id %}" type="submit" class="btn btn-primary" method="POST" >Añadir Producto</a>
+{% endif %}
 </div> 
 <!--Info cliente--> 
 
@@ -70,7 +72,15 @@
         despacho es Repartos patito. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega. </small>
     </p>
     <div style="text-align: center;">
-        <a class="btn btn-secondary" href="{% url 'lista_pedido' %}">Volver atras</a>
+      {%if pedido.is_modificable %}
+        <form method="POST" action="{% url 'confirmarpedido' pedido.id %}" >
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Confirmar pedido">
+      </form>
+      {%else%}
+      <a href="{% url 'lista_pedido' %}"  class="btn btn-warning" >Volver a Lista Pedidos</a>
+      {% endif %}
+      
       </div>      
 </form>
 

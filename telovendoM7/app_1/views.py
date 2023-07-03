@@ -71,7 +71,12 @@ def editarDetalle():
 def is_staff(Cliente):
     return Cliente.is_staff 
 
-    
+def confirmarPedido(request,id):
+    if request.method == 'POST':
+        pedido = Pedido.objects.get(id=id)
+        pedido.is_modificable=False   
+        pedido.save()
+    return redirect('lista_pedido')
 
 @user_passes_test(is_staff)
 def gestionProducto(request):
