@@ -1,3 +1,11 @@
-*.pyc
 __pycache__/
-.entorno/*
+.entorno_grupal/*
+
+# Archivos de cache de Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pyzw
