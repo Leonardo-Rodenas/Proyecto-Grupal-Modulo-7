@@ -59,6 +59,7 @@
                 </div>
                 <div class="col-4">
                   <br>
+                  <p>{% if pedido.pedido_staff %} este pedido fue hecho por un staff, no deberías poder ver esto {% endif %}
                   <p>Usuario: {{ pedido.idcliente.first_name }} {{ pedido.idcliente.last_name }}</p>
                   <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}({{pedi.cantidad}}){%endfor%}</p>
                   <!--<p>Cantidad de Empaques: {{ pedido.detallepedido_set.all|length}} un.</p> -->
