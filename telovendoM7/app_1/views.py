@@ -71,7 +71,8 @@ def editarDetalle():
 def is_staff(Cliente):
     return Cliente.is_staff 
 
-    
+def confirmarPedido(request):
+    pass
 
 @user_passes_test(is_staff)
 def gestionProducto(request):

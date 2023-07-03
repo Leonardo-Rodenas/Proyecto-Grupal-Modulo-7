@@ -122,12 +122,19 @@
             <option value="Mach">Mach</option>
           </select>
           <br>
+          {% if user.is_staff %}
           <label for="medio">Medio de Pedido: </label>
           <select id="medio" name="medio"> 
             <option value="Web">Web</option>
             <option value="Teléfono">Teléfono</option>
             <option value="Email">Email</option>
           </select>
+          {% else %}
+          <label for="medio">Medio de Pedido: </label>
+          <select id="medio" name="medio" readonly> 
+            <option value="Web" selected>Web</option>
+          </select>
+          {% endif %}
           <br>
           <input type="submit" value="Ingresar Pedido" class="btn btn-primary" id="" name="" required>
         </form>

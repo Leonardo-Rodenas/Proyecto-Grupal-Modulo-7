@@ -134,6 +134,7 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=15, choices=ESTADOS_CHOICES, default='Pendiente')
     deleted = models.BooleanField(default=False)
     pedido_staff = models.BooleanField(default=False)
+    modificable = models.BooleanField(default=False)
     precio_total = models.IntegerField(default=0)
 
     def delete(self, *args, **kwargs):
