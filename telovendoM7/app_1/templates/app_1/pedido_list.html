@@ -27,6 +27,7 @@
       <div class="row">
         <!-- inicio tarjeta -->
         {% for pedido in pedidos %}
+        {% if pedido.idcliente == user or user.is_staff %}
         <div class="card container" style="margin-bottom:20px;">
           <ul class="list-group list-group-flush m-2">
             <li class="list-group-item m-2">
@@ -59,7 +60,11 @@
                 </div>
                 <div class="col-4">
                   <br>
+<<<<<<< HEAD
                   <p>{% if pedido.pedido_staff %} este pedido fue hecho por un staff, no deberías poder ver esto {% endif %}
+=======
+                  {% if pedido.pedido_staff %}<p> este pedido fue hecho por un staff, no deberías poder ver esto </p>{% endif %}
+>>>>>>> Rafa
                   <p>Usuario: {{ pedido.idcliente.first_name }} {{ pedido.idcliente.last_name }}</p>
                   <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}({{pedi.cantidad}}){%endfor%}</p>
                   <!--<p>Cantidad de Empaques: {{ pedido.detallepedido_set.all|length}} un.</p> -->
@@ -78,8 +83,10 @@
           </ul>
           <br>
         </div>
+        {% endif %}
         {% empty %}
         <h3 class="text-center">Actualmente no hay pedidos para mostrar.</h3>
+        
       {% endfor %} 
       </div>
       <!-- fin tarjeta -->
@@ -110,7 +117,7 @@
           {% endif %}
           <br>
           <label class="form-clabel" for="direccion" >Direccion de envio:</label>
-          <input type="text" class="form-control" value="{{cliente.direccion}}" id="direccion" name="direccion" required>
+          <input type="text" class="form-control" value="{{user.direccion}}" id="direccion" name="direccion" required>
           <br>
           <label for="metodo">Metodo de Pago: </label>
           <select id="metodo" name="metodo">

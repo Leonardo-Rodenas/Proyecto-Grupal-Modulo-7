@@ -18,6 +18,10 @@ urlpatterns = [
     path('gestion_producto/', gestionProducto, name='gestion_producto'),
     path('gestion_producto/<id>',editarProducto, name="edita_producto"),
     path('edicion_producto',edicionProducto,name="edicion_producto"),
+<<<<<<< HEAD
     path('actpedido',confirmarPedido,name="confirmarpedido"),
+=======
+    path('actpedido/<id>',confirmarPedido,name="confirmarpedido"),
+>>>>>>> Rafa
     path('detalle_pedido/<int:pk>/cambiar_estado/', DetallePedido.as_view(), name='detalle_ cambiar_estado'),
 ]
