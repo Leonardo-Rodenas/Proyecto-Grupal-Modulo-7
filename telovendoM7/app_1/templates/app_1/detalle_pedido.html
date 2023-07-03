@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block modal %}
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade m-2" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title" id="staticBackdropLabel">Pedido N°: {{ pedido.id }}</h2>
-          <ul style="list-style: none;">
-        <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>    
-    </ul>
+          <h3 class="modal-title" id="staticBackdropLabel"><b>Pedido N°: {{ pedido.id }}</b></h3>
+          <ul class="text-center mt-4" style="list-style: none;">
+            <li>Realizado el <b>{{ pedido.fecha_pedido }}</b> via <b>{{ pedido.mediopedido }}</b></li>    
+        </ul>
           <button type="button" class="close" data-dismiss="modal" onclick="history.back()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -17,55 +17,58 @@
         <div class="modal-body">
 
 <!--Info cliente-->
-<div class="card">
-<h2>Informacion del Cliente:</h2>
-<p><strong>Usuario:</strong> 
-    {% if pedido.idcliente.username != none %}{{ pedido.idcliente.username }}{%endif %}
-</p>
-<p><strong>Nombre Completo:</strong> 
-    {% if pedido.idcliente.first_name != none %}{{ pedido.idcliente.first_name }}{%endif %}
-    {% if pedido.idcliente.segundo_nombre != none %}{{ pedido.idcliente.segundo_nombre }}{%endif %}
-    {% if pedido.idcliente.last_name != none %}{{ pedido.idcliente.last_name }}{%endif %}
-    {% if pedido.idcliente.segundo_apellido != none %}{{ pedido.idcliente.segundo_apellido }}{%endif %}
-</p>
-<p><strong>Rut:</strong> {{ pedido.idcliente.rut }}</p>
-<p><strong>Teléfono:</strong> {{ pedido.idcliente.telefono }}</p>
-<p><strong>Email:</strong> {{ pedido.idcliente.email }}</p>
-<p><strong>Dirección de envío:</strong> {{ pedido.idcliente.direccion }}</p>
-<p><strong>Estado de envío:</strong> {{ pedido.estado }}</p>
+<div class="card border border-0">
+    <h3>Informacion del Cliente:</h3>
+    <p><strong>Usuario:</strong> 
+        {% if pedido.idcliente.username != none %}{{ pedido.idcliente.username }}{%endif %}
+    </p>
+    <p><strong>Nombre Completo:</strong> 
+        {% if pedido.idcliente.first_name != none %}{{ pedido.idcliente.first_name }}{%endif %}
+        {% if pedido.idcliente.segundo_nombre != none %}{{ pedido.idcliente.segundo_nombre }}{%endif %}
+        {% if pedido.idcliente.last_name != none %}{{ pedido.idcliente.last_name }}{%endif %}
+        {% if pedido.idcliente.segundo_apellido != none %}{{ pedido.idcliente.segundo_apellido }}{%endif %}
+    </p>
+    <p><strong>Rut:</strong> {{ pedido.idcliente.rut }}</p>
+    <p><strong>Teléfono:</strong> {{ pedido.idcliente.telefono }}</p>
+    <p><strong>Email:</strong> {{ pedido.idcliente.email }}</p>
+    <p><strong>Dirección de envío:</strong> {{ pedido.idcliente.direccion }}</p>
+    <p><strong>Estado de envío:</strong> {{ pedido.estado }}</p>
+    <form class="text-start" method="POST" action="" id="form1"> 
+    {% csrf_token %}
+        <label for="estado"> <b>Cambiar estado pedido:</b></label>
+        <select id="estado" name="estado" onChange="eatFood();">
+            <option value="0" selected>Selecciona un estado</option>
+            <option value="Pendiente"{% if pedido.estado == 'Pendiente' %}{% endif %}>Pendiente</option>
+            <option value="En Preparación"{% if pedido.estado == 'En Preparación' %}{% endif %}>En preparacion</option>
+            <option value="En Despacho"{% if pedido.estado == 'En Despacho' %}{% endif %}>En Despacho</option>
+            <option value="Entregado"{% if pedido.estado == 'Entregado' %}{% endif %}>Entregado</option>
+        </select>
+        <div class="text-center mt-3">
+        </div>
 </div>
-<p><small style="text-align: justify;">Gracias por comprar en Te Lo Vendo. Si realizaste tu compra antes de las 12:00 PM tu pedido será enviado el mismo dia y llegará a tu hogar en 1 día (RM) o 5 días (regiones). Nuestro courrier de 
-    despacho es Repartos patito. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega.</small>
-</p>
-<h3>Pedidos</h3>
+<h3 class="text-center my-3">Productos:</h3>
+
 {% for detalle in pedido.detallepedido_set.all %}
-<ul>
-    <strong>Detalle del pedido:</strong> 
+<ul> 
     <li>{{ detalle.idproducto.nombre }} x {{ detalle.cantidad }} Valor: ${{ detalle.precio }}
-        <a href="{% url 'editar_detalle' detalle.id %}" type="submit" class="btn btn-primary" >Editar</a></li>
-    
+        <a href="{% url 'editar_detalle' detalle.id %}" type="hidden" class="btn btn-primarybtn-sm" ></a></li>
 </ul>
 {%endfor%}
-<a href="{% url 'crear_detalle' pedido.id %}" type="submit" class="btn btn-primary" >Añadir Detalle al pedido</a>
-<!--Info cliente-->
+<ul>
+<li class="text-end mb-3"> <b>Total a pagar: ${{pedido.precio_total}}</b></li>
+</ul>
+<div class="mb-3" style="text-align: center;">
+<a href="{% url 'crear_detalle' pedido.id %}" type="submit" class="btn btn-primary" >Añadir Producto</a>
+</div> 
+<!--Info cliente--> 
 {% if user.is_staff or user.is_superuser %}
-<form method="POST" action=""> 
-
-    {% csrf_token %}
-    <ul>
-        <li>
-            <label for="estado">Estado:</label>
-            <select id="estado" name="estado" onChange="activa_boton(this,this.form.boton)">
-                <option value="0" selected>Selecciona un estado</option>
-                <option value="Pendiente" {% if pedido.estado == 'Pendiente' %}{% endif %}>Pendiente</option>
-                <option value="En Preparación" {% if pedido.estado == 'En Preparación' %}{% endif %}>En preparacion</option>
-                <option value="En Despacho" {% if pedido.estado == 'En Despacho' %}{% endif %}>En Despacho</option>
-                <option value="Entregado" {% if pedido.estado == 'Entregado' %}{% endif %}>Entregado</option>
-            </select>
-        </li>
-    </ul>
-    <input class="btn btn-secondary" type="button" onclick="history.back()" name="Volver atras" value="Volver atras">
-    <input class="btn btn-primary" type="submit" name="boton" id="boton" value="Actualizar pedido" disabled="false">
+<hr>
+    <p style="text-align: justify;"><small>Gracias por comprar en Te Lo Vendo. Si realizaste tu compra antes de las 12:00 PM tu pedido será enviado el mismo dia y llegará a tu hogar en 1 día (RM) o 5 días (regiones). Nuestro courrier de 
+        despacho es Repartos patito. Recuerda verificar tu direccion y que esté alguien disponible en tu casa al momento de la entrega. </small>
+    </p>
+    <div style="text-align: center;">
+        <a class="btn btn-secondary" href="{% url 'lista_pedido' %}">Volver atras</a>
+      </div>      
 </form>
 {% endif %}
 
@@ -73,15 +76,7 @@
  </div>
 </div>
 </div>
-<script language="javascript">
-    function activa_boton(campo,boton){
-       if (campo.value != "0"){
-           boton.disabled=false;
-       } else {
-           boton.disabled=true;
-       }
-   }
-   </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script>
       window.addEventListener('load', function() {
@@ -94,6 +89,9 @@
       $(document).ready(function(){
           $(".modal").hide(0).delay(0).fadeIn(2000)
       });
+      function eatFood() {
+        document.getElementById('form1').submit();
+        }
   </script>
   
 {% endblock %}
