@@ -95,6 +95,7 @@ def CreacionDetalle(request,id):
         if useractual.is_staff:
             pedido.pedido_staff=True   
         pedido.save()
+        
     return redirect('detalle_pedido',id)
 
 #class ListaTareas(LoginRequiredMixin, ListView):
