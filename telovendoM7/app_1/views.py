@@ -45,13 +45,13 @@ class VistaLoginCustom(LoginView):
 
 @login_required
 def ListaPedidos(request):
-    actualuser = request.user
-    send_mail(
-            'Telovendo Alerta de inicio de Sesion','Hola'+ actualuser.first_name + actualuser.last_name +' alguien acaba de iniciar sesion en tu cuenta de Te lo Vendo:'+ actualuser.username +', si no has sido tú, por favor revisa tu contraseña y procura cambiarla si es necesario, recuerda no compartirla con nadie.\n\n\n Atte. equipo de Telovendo',
-            'talento@fabricadecodigo.dev',
-            [actualuser.email],
-            fail_silently=False
-        ) 
+    #actualuser = request.user
+    #send_mail(
+    #    'Telovendo Alerta de inicio de Sesion','Hola '+ actualuser.first_name + ' ' + actualuser.last_name +' acabas de iniciar sesion en tu cuenta de Te lo Vendo: '+ actualuser.username +', si no has sido tú, por favor revisa tu contraseña y procura cambiarla si es necesario, recuerda no compartirla con nadie.\n\n\n Atte. equipo de Telovendo',
+    #    'talento@fabricadecodigo.dev',
+    #    [actualuser.email],
+    #    fail_silently=False
+    #    ) 
    # pedidos=Pedido.objects.all()
     #detallepedido=[]
     #for pedido in pedidos:
@@ -87,17 +87,46 @@ def editarProducto(request,id):
     produc=Producto.objects.get(id=id)
     return render(request,"editar_producto.html",{"producto":produc})
 
+from django.core.mail import send_mail
+from django.shortcuts import redirect
+
 class DetallePedido(LoginRequiredMixin, DetailView):
     model = Pedido
     context_object_name = 'pedido'
     template_name = 'app_1/detalle_pedido.html'
-
+    
     def post(self, request, *args, **kwargs):
         pedido = self.get_object()
         nuevo_estado = request.POST.get('estado')
         pedido.estado = nuevo_estado
         pedido.save()
+        nombre = str(pedido.idcliente.first_name)
+        apellido = str(pedido.idcliente.last_name)
+        num = str(pedido.id)
+        
+        if nuevo_estado == 'Pendiente':
+            return redirect('detalle_pedido', pk=pedido.pk)
+        elif nuevo_estado == 'En Despacho':
+            cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': En Despacho 🥵🥵😱😰'
+            cuerpo = 'Hola 🖐️ '+ nombre + ' ' + apellido +' te informamos que el estado de tu pedido ha cambiado a: "En depacho", Gracias por comprar en Te Lo Vendo. \n\n\n Atte. equipo de Telovendo'
+        elif nuevo_estado == 'Entregado':
+            cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': Entregado'
+            cuerpo = 'Hola 🖐️ '+ nombre + ' ' + apellido + ' agradecemos tu preferencia y estamos felices de anunciarte que tu pedido se encuentra "Entregado". Por favor, revisa el estado de tus productos y avísanos ante cualquier percance. Recuerda que tienes 5 días hábiles post-entregado el producto para realizar cambios sin costo. Estamos atentos a tus comentarios. \n\n\nMuchas gracias. \n\n\n Atte. Equipo de Telovendo'
+        elif nuevo_estado == 'En Preparación':
+            cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': En Preparación'
+            cuerpo = 'Confirmamos tu pedido \n\n Hola 🖐️ '+ nombre + ' ' + apellido +'\n\nAgradecemos tu preferencia. Tu pedido '+ num +' se encuentra: ' +  pedido.estado  +'. Te avisaremos cuando se envíe \n\n\n Atte. equipo de TeLoVendo'
+        
         pedido.refresh_from_db()  # Actualizar el objeto desde la base de datos
+        
+        # Send the email
+        send_mail(
+            cabeza,
+            cuerpo,
+            'talento@fabricadecodigo.dev',
+            [pedido.idcliente.email],
+            fail_silently=False
+        )
+        
         return redirect('detalle_pedido', pk=pedido.pk)
 
 
