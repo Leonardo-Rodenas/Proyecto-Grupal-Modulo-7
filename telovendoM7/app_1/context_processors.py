@@ -22,4 +22,3 @@ def ListaDetallesPedido(request):
         for detallepedido in detallepedidos:
             dp.append(detallepedido)
     return{'detallepedidos':dp}
-

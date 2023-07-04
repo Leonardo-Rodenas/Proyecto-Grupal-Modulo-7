@@ -71,7 +71,7 @@ class Cliente(AbstractUser):
         self.save()
 
     def __str__(self):
-        return f"{self.username}{self.first_name}{self.last_name}"
+        return f"Usuario: {self.username} || Nombre: {self.first_name} {self.last_name}"
 
 
 # class Direccion(models.Model):  

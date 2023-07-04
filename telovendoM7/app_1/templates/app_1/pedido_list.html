@@ -28,6 +28,7 @@
         <!-- inicio tarjeta -->
         {% for pedido in pedidos %}
         {% if pedido.idcliente == user or user.is_staff %}
+        {% if pedido.deleted != True %}
         <div class="card container" style="margin-bottom:20px;">
           <ul class="list-group list-group-flush m-2">
             <li class="list-group-item m-2">
@@ -75,7 +76,9 @@
                   <div class="container">
                   <br><br>
                   <button type="button" class="btn btn-secondary btn-sm btn-block disabled rounded-pill">Escribir un comentario</button>
-                  <button type="button" class="btn btn-light btn-sm btn-block disabled rounded-pill">Eliminar</button>                    
+                  
+                  
+                  <button type="button" class="btn btn-outline-danger btn-sm btn-block {% if pedido.estado == 'En Despacho' or pedido.estado == 'Entregado' %} disabled {% endif %} rounded-pill">Cancelar pedido</button>     
                   </div>
                 </div>
               </div>
@@ -83,6 +86,7 @@
           </ul>
           <br>
         </div>
+        {% endif %}
         {% endif %}
         {% empty %}
         <h3 class="text-center">Actualmente no hay pedidos para mostrar.</h3>

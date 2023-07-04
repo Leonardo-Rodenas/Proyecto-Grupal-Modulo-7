@@ -9,10 +9,15 @@ from django.contrib.auth import get_user_model
 def registrar_usuario(request):
     if request.method == 'POST':
         # Obtain the form data
+        rut = request.POST['rut']
         first_name = request.POST['first_name']
+        segundo_nombre = request.POST['segundo_nombre']
         last_name = request.POST['last_name']
+        segundo_apellido = request.POST['segundo_apellido']
         username = request.POST['username']
+        telefono = request.POST['telefono']
         email = request.POST['email']
+        direccion = request.POST['direccion']
         password = get_random_string(length=6)
 
 
@@ -26,11 +31,14 @@ def registrar_usuario(request):
 
         # Create the new user
         Cliente.objects.create_user(
-            username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+            username=username, password=password, email=email, first_name=first_name, last_name=last_name, 
+            rut=rut, segundo_nombre=segundo_nombre, segundo_apellido=segundo_apellido, telefono=telefono,
+            direccion=direccion
+        )
 
         # Send the email
         send_mail(
-            'Hola, tu contraseña ha llegado.',
+            'Somos de TeLoVendo, traemos tu contraseña ♥️',
             'Hola ' + first_name + ' ' + last_name + ', tu contraseña es: ' + password,
             'talento@fabricadecodigo.dev',
             [email],
@@ -86,6 +94,7 @@ def CreacionDetalle(request,id):
         if useractual.is_staff:
             pedido.pedido_staff=True   
         pedido.save()
+        
     return redirect('detalle_pedido',id)
 
 #class ListaTareas(LoginRequiredMixin, ListView):
