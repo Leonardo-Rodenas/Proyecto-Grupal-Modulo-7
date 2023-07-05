@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import VistaLoginCustom
 from django.contrib.auth.views import LogoutView
-from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido
+from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido,cancelarPedido
 from app_2.views import registrar_pedido,edicionProducto,CreacionDetalle
 
 urlpatterns = [
@@ -19,5 +19,6 @@ urlpatterns = [
     path('gestion_producto/<id>',editarProducto, name="edita_producto"),
     path('edicion_producto',edicionProducto,name="edicion_producto"),
     path('actpedido/<id>',confirmarPedido,name="confirmarpedido"),
+    path('cancelarpedido/<id>',cancelarPedido,name="cancelar_pedido"),
     path('detalle_pedido/<int:pk>/cambiar_estado/', DetallePedido.as_view(), name='detalle_ cambiar_estado'),
 ]

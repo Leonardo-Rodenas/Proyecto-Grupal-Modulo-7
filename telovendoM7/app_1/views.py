@@ -1,17 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.views.generic.list import ListView
 from django.views.generic import DetailView
-from django.shortcuts import redirect
-from .models import Pedido,DetallePedido,Cliente,Producto
+from .models import Pedido,Cliente,Producto
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
-from django.contrib.sites.shortcuts import get_current_site
 
 
 # Create your views here.
@@ -47,12 +43,12 @@ class VistaLoginCustom(LoginView):
 def ListaPedidos(request):
     #actualuser = request.user
     #send_mail(
-    #    'Telovendo Alerta de inicio de Sesion','Hola '+ actualuser.first_name + ' ' + actualuser.last_name +' acabas de iniciar sesion en tu cuenta de Te lo Vendo: '+ actualuser.username +', si no has sido tú, por favor revisa tu contraseña y procura cambiarla si es necesario, recuerda no compartirla con nadie.\n\n\n Atte. equipo de Telovendo',
+    #    'Telovendo Alerta de inicio de Sesion','Hola Tuloide'+ actualuser.first_name + ' ' + actualuser.last_name +' acabas de iniciar sesion en tu cuenta de Te lo Vendo: '+ actualuser.username +', si no has sido tú, por favor revisa tu contraseña y procura cambiarla si es necesario, recuerda no compartirla con nadie.\n\n\n Atte. equipo de Telovendo',
     #    'talento@fabricadecodigo.dev',
     #    [actualuser.email],
     #    fail_silently=False
     #    ) 
-   # pedidos=Pedido.objects.all()
+    #pedidos=Pedido.objects.all()
     #detallepedido=[]
     #for pedido in pedidos:
     #    detallepedido.append(pedido.detallepedido_set.all())
@@ -65,8 +61,19 @@ def CrearDetalle(request,id):
     pedido= Pedido.objects.get(id=id)
     return render(request,"crear_detalle.html",{"pedido":pedido})
    
-def editarDetalle():
-    pass
+def cancelarPedido(request,id):
+    
+    pedido=Pedido.objects.get(id=id)
+    pedido.estado='Cancelado'
+    pedido.save()
+    detalles = pedido.detallepedido_set.all()
+    for detalle in detalles:
+        product=detalle.idproducto.id
+        producto=Producto.objects.get(id=product)
+        producto.stock=producto.stock+detalle.cantidad
+        producto.save()
+
+    return redirect('lista_pedido')
 
 def is_staff(Cliente):
     return Cliente.is_staff 
@@ -78,6 +85,9 @@ def confirmarPedido(request,id):
         pedido.save()
     return redirect('lista_pedido')
 
+def editarDetalle(request):
+    pass
+
 @user_passes_test(is_staff)
 def gestionProducto(request):
     users = Cliente.objects.all()
@@ -86,9 +96,6 @@ def gestionProducto(request):
 def editarProducto(request,id):
     produc=Producto.objects.get(id=id)
     return render(request,"editar_producto.html",{"producto":produc})
-
-from django.core.mail import send_mail
-from django.shortcuts import redirect
 
 class DetallePedido(LoginRequiredMixin, DetailView):
     model = Pedido
@@ -107,15 +114,17 @@ class DetallePedido(LoginRequiredMixin, DetailView):
         if nuevo_estado == 'Pendiente':
             return redirect('detalle_pedido', pk=pedido.pk)
         elif nuevo_estado == 'En Despacho':
-            cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': En Despacho 🥵🥵😱😰'
-            cuerpo = 'Hola 🖐️ '+ nombre + ' ' + apellido +' te informamos que el estado de tu pedido ha cambiado a: "En depacho", Gracias por comprar en Te Lo Vendo. \n\n\n Atte. equipo de Telovendo'
+            cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': En Despacho'
+            cuerpo = 'app_1/correo.html'+'<H1>Hola 🖐️'+ nombre + ' ' + apellido +' te informamos que el estado de tu pedido ha cambiado a: "En depacho", Gracias por comprar en Te Lo Vendo. \n\n\n Atte. equipo de Telovendo</h1>'
         elif nuevo_estado == 'Entregado':
             cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': Entregado'
             cuerpo = 'Hola 🖐️ '+ nombre + ' ' + apellido + ' agradecemos tu preferencia y estamos felices de anunciarte que tu pedido se encuentra "Entregado". Por favor, revisa el estado de tus productos y avísanos ante cualquier percance. Recuerda que tienes 5 días hábiles post-entregado el producto para realizar cambios sin costo. Estamos atentos a tus comentarios. \n\n\nMuchas gracias. \n\n\n Atte. Equipo de Telovendo'
         elif nuevo_estado == 'En Preparación':
             cabeza = '🔔 Información del estado de tu pedido N° ' + num + ': En Preparación'
             cuerpo = 'Confirmamos tu pedido \n\n Hola 🖐️ '+ nombre + ' ' + apellido +'\n\nAgradecemos tu preferencia. Tu pedido '+ num +' se encuentra: ' +  pedido.estado  +'. Te avisaremos cuando se envíe \n\n\n Atte. equipo de TeLoVendo'
-        
+        elif nuevo_estado == 'Cancelado':
+            cabeza='🔔 Información del estado de tu pedido N° ' + num + ': Cancelado'
+            cuerpo='Lamentamos informarte que tu pedido se encuentra cancelado'
         pedido.refresh_from_db()  # Actualizar el objeto desde la base de datos
         
         # Send the email

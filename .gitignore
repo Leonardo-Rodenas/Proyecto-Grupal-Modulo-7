@@ -1,5 +1,5 @@
 __pycache__/
-.entorno_grupal/*
+.venv/*
 
 # Archivos de cache de Django
 __pycache__/

@@ -49,6 +49,7 @@ ESTADOS_CHOICES = [
     ('En Preparación', 'En Preparación'),
     ('En Despacho', 'En Despacho'),
     ('Entregado', 'Entregado'),
+    ('Cancelado', 'Cancelado'),
 ]
 
 class Cliente(AbstractUser):

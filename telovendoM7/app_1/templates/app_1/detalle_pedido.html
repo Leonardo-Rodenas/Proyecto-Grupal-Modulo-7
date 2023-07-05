@@ -44,6 +44,7 @@
             <option value="En Preparación"{% if pedido.estado == 'En Preparación' %}{% endif %}>En preparacion</option>
             <option value="En Despacho"{% if pedido.estado == 'En Despacho' %}{% endif %}>En Despacho</option>
             <option value="Entregado"{% if pedido.estado == 'Entregado' %}{% endif %}>Entregado</option>
+            <option value="Cancelado"{% if pedido.estado == 'Cancelado' %}{% endif %}>Cancelado</option>
         </select>
         {% endif  %}
       </form>

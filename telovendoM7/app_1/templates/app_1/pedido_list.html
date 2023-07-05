@@ -28,7 +28,7 @@
         <!-- inicio tarjeta -->
         {% for pedido in pedidos %}
         {% if pedido.idcliente == user or user.is_staff %}
-        {% if pedido.deleted != True %}
+        {% if pedido.estado != 'Cancelado' %}
         <div class="card container" style="margin-bottom:20px;">
           <ul class="list-group list-group-flush m-2">
             <li class="list-group-item m-2">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-4">
                   <br>
-                  {% if pedido.pedido_staff %}<p> este pedido fue hecho por un staff, no deberías poder ver esto </p>{% endif %}
+                  {% if pedido.pedido_staff %}<p><b>Pedido realizado desde area de Ventas de TeLoVendo</b></p>{% endif %}
                   <p>Usuario: {{ pedido.idcliente.first_name }} {{ pedido.idcliente.last_name }}</p>
                   <p>Productos:{% for pedi in pedido.detallepedido_set.all %} {{pedi.idproducto.nombre}}({{pedi.cantidad}}){%endfor%}</p>
                   <!--<p>Cantidad de Empaques: {{ pedido.detallepedido_set.all|length}} un.</p> -->
@@ -70,12 +70,13 @@
                 </div>
                 <div class="col-6">
                   <div class="container">
-                  <br><br>
-                  <button type="button" class="btn btn-secondary btn-sm btn-block disabled rounded-pill">Escribir un comentario</button>
-                  
-                  
-                  <button type="button" class="btn btn-outline-danger btn-sm btn-block {% if pedido.estado == 'En Despacho' or pedido.estado == 'Entregado' %} disabled {% endif %} rounded-pill">Cancelar pedido</button>     
-                  </div>
+                  <br><br><p>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block disabled rounded-pill">Escribir un comentario</button>
+                  </p>
+                  <p>
+                    <a type="button" class="btn btn-outline-danger btn-sm btn-block {% if pedido.estado == 'En Despacho' or pedido.estado == 'Entregado' or pedido.estado == 'Cancelado' %} disabled {% endif %} rounded-pill" href="{% url 'cancelar_pedido' pedido.id  %}">Cancelar pedido</a>    
+                  </p>
+                </div>
                 </div>
               </div>
             </li>
