@@ -1,3 +1,5 @@
+# Repositorio: https://github.com/Leonardo-Rodenas/Proyecto-Grupal-Modulo-7/tree/Leo
+
 # Claudio: Te enviamos acá las contraseñas para acceder a la base de datos y los usuarios con los que puedes probar el trabajo (puedes crear uno tu si quieres, pero no será super admin)
 
 # Configuracion en .env (renombrar .env_default a .env) con las siguientes variables:
