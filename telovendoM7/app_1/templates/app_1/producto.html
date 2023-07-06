@@ -2,12 +2,11 @@
 {% load static %}
 
 {% block content %}
-
     <div class="row">
         <div class="col col-sm-4">
             <div class="card border-0">
                 <div class="card-body m-3 border-0">
-                    <img src="../img/placa.png" class="img_producto" alt="producto">
+                    <img src="{{producto.img.url}}" class="img_producto" alt="producto"> 
                 </div>
             </div>
         </div>
@@ -15,46 +14,16 @@
             <div class="card border-0">
                 <div class="card-body m-3 bg-secondary-subtle">
                     <ul class="list-group m-3 ">
-                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">Placa Madre Aorus X670
-                            Elite AX</li>
-                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">$359.990</li>
+                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">{{ producto.nombre|title }}</li>
+                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">${{ producto.precio_venta }}</li>
                         <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">Reseña <em>(5
-                                estrellas)</em><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                class="bi bi-star-fill"></i></li>
+                                estrellas)
                     </ul>
                     <ul class="list-group m-3 bg-secondary">
-                        <li class="list-group-item m-3 bg-secondary text-light">Especificaciones</li>
+                        <li class="list-group-item m-3 bg-secondary text-light">Descripción: </li>
                         <li class="list-group-item m-1 bg-secondary text-light border-0">
-                            Unparalleled Performance: Twin 16*+2+2 Phases Digital VRM Solution</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0">Dual Channel DDR5: 4*SMD
-                            DIMMs with AMD EXPO™ & Intel® XMP Memory Module Support</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0"> Next Generation Storage:
-                            1*PCIe 5.0 x4 and 3*PCIe 4.0 x4 M.2 Connectors</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0">Mega-Heatpipe & M.2 Thermal
-                            Guard：To Ensure VRM Power Stability & 25110 PCIe 5.0 M.2 SSD
-                            Performance</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0">EZ-Latch: PCIe x16 Slot & M.2
-                            Connectors with Quick Release & Screwless Design</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0"></li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0">Fast Networks: 2.5GbE LAN &
-                            Wi-Fi 6E 802.11ax</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0"> Extended Connectivity: HDMI,
-                            Dual USB-C® 20Gbps and Upcoming GIGABYTE USB4 AIC Support</li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0">Smart Fan 6: Features Multiple
-                            Temperature Sensors, Hybrid Fan Headers with FAN STOP
-                        </li>
-                        <li class="list-group-item m-1 bg-secondary text-light border-0"> Q-Flash Plus: Update BIOS
-                            Without Installing the CPU, Memory and Graphics Card</li>
-
+                            {{ producto.descripcion }}</li>
                     </ul>
-                    <div class="card m-3">
-                        <div class="card-body botones bg-primary-subtle">
-                            <button type="button" class="btn btn-outline-primary btn-custom">-</button>
-                            <button type="button" class="btn btn-outline-primary btn-custom">+</button>
-                            <button type="button" class="btn btn-primary">Añadir al carro</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

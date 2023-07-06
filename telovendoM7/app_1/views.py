@@ -140,13 +140,14 @@ class DetallePedido(LoginRequiredMixin, DetailView):
 def catalogo(request):
     return render(request, 'catalogo_productos.html')
 
-class producto(TemplateView):
-    model = Producto
-    context_object_name = 'producto'
-    template_name = 'app_1/producto.html'
+def Product(request,id):
+    produc=Producto.objects.get(id=id)
+    return render(request,"producto.html", {"producto":produc})
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
-
-
-
+#class producto(TemplateView):
+#    model = Producto
+#    context_object_name = 'producto'
+#    template_name = 'app_1/producto.html'
+#
+#    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+#        return super().get_context_data(**kwargs)

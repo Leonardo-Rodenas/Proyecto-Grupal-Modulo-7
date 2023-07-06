@@ -44,49 +44,60 @@
     </div>
 </div>
 
-
-
-{% load static%}
 <!-- Cards -->
 <div class="text-center text-white">
 <h3>Productos</h3>
 </div>
+
 <div class="container mt-4">
     <div class="row">
+        {% for producto in productos %}
+        {% if producto.id == 9 %}
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
-                <img src="{% static 'img/play_5.jpg' %}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
+                <img src="{{producto.img.url}}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
                 <div class="card-body">
-                    <h5 class="card-title">PS5 + God of War Ragnarok - Versión Con Lector </h5>
-                    <p class="card-text">Obtén el paquete PlayStation®5 + God of War Ragnarok y únete a Kratos 
-                        mientras se enfrenta a nuevos y peligrosos desafíos en en PS5.
+                    <h5 class="card-title">{{producto.nombre}}</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <p class="card-text">{{producto.descripcion|linebreaks}}
                     </p>
-                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
+        {% for producto in productos %}
+        {% if producto.id == 7 %}
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
-                <img src="{% static 'img/pc_gamer.jpg' %}" class="card-img-top p-5" alt="Notebook Gamer Asus">
+                <img src="{{producto.img.url}}" class="card-img-top p-5" alt="Notebook Gamer Asus">
                 <div class="card-body">
-                    <h5 class="card-title">Notebook Asus Gamer ROG Strix G15 AMD Ryzen 9</h5>
-                    <p class="card-text">La más alta gama en tecnologia Gamer, experiencia sin límites en este 
-                        Notebook Gamer de gama alta. Te corre todo full y en Ultra</p>
-                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="card-title">{{producto.nombre}}</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <p class="card-text">{{producto.descripcion|linebreaks}}</p>
+                    <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
+        {% for producto in productos %}
+        {% if producto.id == 6 %}
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
-                <img src="{% static 'img/silla_gamer.jpg' %}" class="card-img-top p-4" alt="Silla Gamer">
+                <img src="{{producto.img.url}}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
                 <div class="card-body">
-                    <h5 class="card-title">Silla Gamer Playseat Red Bull Fórmula 1 Negro</h5>
-                    <p class="card-text">En colaboración con Red Bull Racing, Playseat ha desarrollado un simulador 
-                        de conducción de Fórmula 1, revestido con los colores de la exitosa escudería Red Bull.</p>
-                    <a href="#" class="btn btn-primary">Comprar</a>
+                    <h5 class="card-title">{{producto.nombre}}</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <p class="card-text">{{producto.descripcion|linebreaks}}
+                    </p>
+                    <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </div>
 <div class="text-center">
