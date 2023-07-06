@@ -112,8 +112,10 @@ class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.DO_NOTHING)
     nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(default='Sin descripcion')
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
+    img = models.ImageField(upload_to='medios', default='medios/not-found.jpg')
     deleted = models.BooleanField(default=False)
     
     def delete(self, *args, **kwargs):

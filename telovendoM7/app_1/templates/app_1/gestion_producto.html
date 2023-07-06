@@ -9,6 +9,8 @@
           <th scope="col">Nombre</th>
           <th scope="col">Precio</th>
           <th scope="col">Stock</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Descripción</th>
         </tr>
       
         {% for producto in productos %}
@@ -17,7 +19,9 @@
           <td>{{producto.nombre}}</td>
           <td>{{producto.precio_venta}}</td>
           <td>{{producto.stock}}</td>
-          <td><a href="{% url 'edita_producto' producto.id %}" type="submit" class="btn btn-primary" value="editar">Editar</a></td>
+          <td><img src="{{producto.img.url}}" alt="" class="rounded mx-auto d-block" height="150px" width="150px"></td>
+          <td>{{producto.descripcion}}</td>
+          <td><a href="{% url 'edita_producto' producto.id %}" type="submit" class="btn btn-primary"  value="editar">Editar</a></td>
         </tr>
         {%endfor%}
 </table>

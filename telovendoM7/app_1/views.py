@@ -1,7 +1,8 @@
+from typing import Any, Dict
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from .models import Pedido,Cliente,Producto
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -28,9 +29,7 @@ class VistaLoginCustom(LoginView):
     
     def get_success_url(self):
 
-        return reverse_lazy('lista_pedido') # Lugar al que se es redirecionado si el login es exitoso
-
-
+        return reverse_lazy('catalogo') # Lugar al que se es redirecionado si el login es exitoso
 
 # class ListaPedidos (LoginRequiredMixin, ListView):
 #     model = DetallePedido
@@ -137,6 +136,17 @@ class DetallePedido(LoginRequiredMixin, DetailView):
         )
         
         return redirect('detalle_pedido', pk=pedido.pk)
+    
+def catalogo(request):
+    return render(request, 'catalogo_productos.html')
+
+class producto(TemplateView):
+    model = Producto
+    context_object_name = 'producto'
+    template_name = 'app_1/producto.html'
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        return super().get_context_data(**kwargs)
 
 
 

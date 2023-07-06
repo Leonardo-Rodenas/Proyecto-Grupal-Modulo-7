@@ -2,8 +2,10 @@ from django.urls import path
 from . import views
 from .views import VistaLoginCustom
 from django.contrib.auth.views import LogoutView
-from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido,cancelarPedido
+from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido,cancelarPedido,catalogo, producto
 from app_2.views import registrar_pedido,edicionProducto,CreacionDetalle
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='telovendo'), 
@@ -21,4 +23,8 @@ urlpatterns = [
     path('actpedido/<id>',confirmarPedido,name="confirmarpedido"),
     path('cancelarpedido/<id>',cancelarPedido,name="cancelar_pedido"),
     path('detalle_pedido/<int:pk>/cambiar_estado/', DetallePedido.as_view(), name='detalle_ cambiar_estado'),
+    path('inicio',catalogo, name="catalogo"),
+    path('producto/<int:pk>',producto.as_view(), name="producto"),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

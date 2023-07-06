@@ -56,7 +56,7 @@
               <div class="row">
                 <div class="col-2">
                   <figure class="figure">
-                    <img src="{% static 'img/logo.png'%}" class="figure-img img-fluid rounded" alt="...">
+                    <img src="{{pedido.detallepedido_set.last.idproducto.img.url}}" class="figure-img img-fluid rounded" alt="...">
                   </figure>
                 </div>
                 <div class="col-4">
