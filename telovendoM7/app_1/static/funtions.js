@@ -27,3 +27,8 @@ function copyToClipboard(id) {
   // Elimina el elemento de textarea temporal
   document.body.removeChild(textarea);
 }
+
+const myOffcanvas = document.getElementById('myOffcanvas')
+myOffcanvas.addEventListener('hidden.bs.offcanvas', event => {
+  // do something...
+})

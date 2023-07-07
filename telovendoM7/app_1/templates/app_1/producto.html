@@ -7,7 +7,7 @@
         <div class="col-lg-4 col-sm-4">
             <div class="card border-0 text-center">
                 <div class="card-body border-0">
-                    <img src="{{producto.img.url}}" alt="producto" width="300px"> 
+                    <img src="{{producto.imag.url}}" alt="producto" width="300px"> 
                 </div>
             </div>
         </div>
@@ -17,8 +17,8 @@
                     <ul class="list-group">
                         <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle h5 fs-5">{{ producto.nombre|title }}</li>
                         <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle h4 fs-4">${{ producto.precio_venta }}</li>
-                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">Reseña <em>(5
-                                estrellas)
+                        <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">Reseña <em>(5 estrellas)</li>
+                            <li class="list-group-item m-1 rounded-2 border-0 bg-primary-subtle">Stock: <em>{{producto.stock}}</li>
                     </ul>
                     <ul class="list-group m-3 bg-secondary">
                         <li class="list-group-item m-3 bg-secondary text-light fs-6">Descripción: </li>

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, TemplateView
-from .models import Pedido,Cliente,Producto
+from .models import Pedido,Cliente,Producto,Carrito
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -29,7 +29,6 @@ class VistaLoginCustom(LoginView):
     redirect_authenticated_user = True # Rediderciona si el login es exitoso
     
     def get_success_url(self):
-
         return reverse_lazy('catalogo') # Lugar al que se es redirecionado si el login es exitoso
 
 # class ListaPedidos (LoginRequiredMixin, ListView):
@@ -83,6 +82,11 @@ def confirmarPedido(request,id):
         pedido = Pedido.objects.get(id=id)
         pedido.is_modificable=False   
         pedido.save()
+        carroid=pedido.idcliente.idcarrito.id
+        carri = Carrito.objects.get(id=carroid)
+        list=()
+        carri.producto.set(list)
+        carri.save()
     return redirect('lista_pedido')
 
 def editarDetalle(request):
@@ -138,8 +142,25 @@ class DetallePedido(LoginRequiredMixin, DetailView):
         
         return redirect('detalle_pedido', pk=pedido.pk)
     
+
+def addCarrito(request,id):
+    producto=Producto.objects.get(id=id)
+    actualuser=request.user
+    actualcarro=actualuser.idcarrito.producto
+    actualcarro.add(producto)
+    actualuser.save()
+    return redirect('catalogo')
+    
+
 def catalogo(request):
-    create_collum()
+    actualuser=request.user
+    if request.user.idcarrito == None:
+        newcarro=Carrito()
+        newcarro.save()
+        actualuser.idcarrito=newcarro
+        actualuser.save()
+
+
     return render(request, 'catalogo_productos.html')
 
 def Product(request,id):

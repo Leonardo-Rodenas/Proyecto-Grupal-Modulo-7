@@ -1,0 +1,125 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+    :root {
+        --shadow-color: 0deg 0% 0%;
+        --shadow-elevation-low:
+          0.2px 0px 0.2px hsl(var(--shadow-color) / 0.27),
+          0.2px 0px 0.2px -2.5px hsl(var(--shadow-color) / 0.18),
+          0.7px 0px 0.5px -5px hsl(var(--shadow-color) / 0.09);
+        --shadow-elevation-medium:
+          0.2px 0px 0.2px hsl(var(--shadow-color) / 0.22),
+          0.2px 0px 0.2px -1.2px hsl(var(--shadow-color) / 0.18),
+          0.6px 0px 0.5px -2.5px hsl(var(--shadow-color) / 0.13),
+          1.7px 0.1px 1.3px -3.7px hsl(var(--shadow-color) / 0.09),
+          3.7px 0.2px 2.8px -5px hsl(var(--shadow-color) / 0.04);
+        --shadow-elevation-high:
+          0.2px 0px 0.2px hsl(var(--shadow-color) / 0.21),
+          0.2px 0px 0.2px -0.6px hsl(var(--shadow-color) / 0.19),
+          0.4px 0px 0.3px -1.1px hsl(var(--shadow-color) / 0.17),
+          0.9px 0px 0.7px -1.7px hsl(var(--shadow-color) / 0.15),
+          2px 0.1px 1.5px -2.2px hsl(var(--shadow-color) / 0.12),
+          3.7px 0.2px 2.8px -2.8px hsl(var(--shadow-color) / 0.1),
+          6.3px 0.3px 4.7px -3.3px hsl(var(--shadow-color) / 0.08),
+          9.9px 0.5px 7.4px -3.9px hsl(var(--shadow-color) / 0.06),
+          14.7px 0.8px 11px -4.4px hsl(var(--shadow-color) / 0.04),
+          20.9px 1.1px 15.7px -5px hsl(var(--shadow-color) / 0.02);
+}
+
+.quantity {
+    position: relative;
+    display: inline-block;
+    color: #7f7f7f;
+}
+
+.quantity input[type="number"] {
+    transition: border 0.3s ease-in-out, color 0.3s ease-in-out;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    box-shadow: none;
+    outline: none;
+    width: 42px;
+    height: 34px;
+    text-align: center;
+    float: right;
+    border: 1px solid #dcdcdc;
+    background-color: #dcdcdc;
+    color: #342f2f;
+}
+
+.quantity input[type="number"]:focus {
+    border-color: #57b8f6 !important;
+}
+
+.quantity input[type="number"]:hover {
+    border-color: #a5a5a5;
+}
+
+.quantity-button {
+    width: 39px;
+    height: 34px;
+    display: inline-block;
+    float: right;
+    position: relative;
+    cursor: pointer;
+}
+
+.quantity-button::before,
+.quantity-button::after {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: calc(50% - 7px);
+    content: '';
+    width: 14px;
+    height: 2px;
+    background-color: currentColor;
+    display: block;
+}
+
+.quantity-remove::after {
+    display: none;
+}
+
+.quantity-add::after {
+    transform: rotate(90deg);
+}
+
+summary {
+    margin-top: 150px;
+    width: 50px;
+    color: #af7b7b00;
+}
+
+details {
+    width: 60px;
+    height: 40px;
+    visibility: inherit;
+    position: absolute;
+    z-index:4;
+}
+
+#card {
+    color: #342f2f;
+    font-family: 'Bozon Regular';
+    background: whitesmoke;
+    box-shadow: var(--shadow-elevation-high);
+}
+
+
+.carrito>p {
+    position: relative;
+    bottom: -85px;
+    width: 60px;
+    height: 40px;
+    z-index:3;
+    background-image: url("img/carrito.png");
+    background-size: 60px;
+}

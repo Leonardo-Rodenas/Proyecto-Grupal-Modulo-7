@@ -3,6 +3,7 @@
 {% block content %}
 {% load static%}
 <!-- Carrusel -->
+
 <div id="carrusel_container" style="padding: 0 100px; margin-top: 25px;">
     <div id="carrusel_intro_TLV" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -46,7 +47,7 @@
 
 <!-- Cards -->
 <div class="text-center text-white">
-<h3>Productos</h3>
+<h1>Productos</h1>
 </div>
 
 <div class="container mt-4">
@@ -59,7 +60,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
                     <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
-                    <p class="card-text">{{producto.descripcion|linebreaks}}
+                    <p class="card-text">{{producto.descripcion|truncatechars:50}}
                     </p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
@@ -75,7 +76,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
                     <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
-                    <p class="card-text">{{producto.descripcion|linebreaks}}</p>
+                    <p class="card-text">{{producto.descripcion|truncatechars:50}}</p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
             </div>
@@ -90,7 +91,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
                     <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
-                    <p class="card-text">{{producto.descripcion|linebreaks}}
+                    <p class="card-text">{{producto.descripcion|truncatechars:50}}
                     </p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>

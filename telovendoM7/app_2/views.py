@@ -53,6 +53,7 @@ def registrar_usuario(request):
 
 def registrar_pedido(request):
     if request.method == 'POST':
+        preciototal=0
         id = request.POST['cliente']
         direccion = request.POST['direccion']
         cliente = Cliente.objects.get(id=id)
@@ -62,6 +63,15 @@ def registrar_pedido(request):
         pedido.save()
         cliente.direccion = direccion
         cliente.save()
+        if cliente.idcarrito != None:
+            for producto in cliente.idcarrito.producto.all():
+                newpedido=DetallePedido(precio=producto.precio_venta,idpedido=pedido,idproducto=producto)
+                newpedido.save()
+                preciototal+=producto.precio_venta
+            
+        pedido.precio_total=preciototal
+        pedido.save()
+        
         return redirect('detalle_pedido', pedido.id )
 
 def edicionProducto(request):

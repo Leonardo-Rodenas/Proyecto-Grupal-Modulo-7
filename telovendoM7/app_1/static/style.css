@@ -41,8 +41,8 @@
 
 #logo {
     padding-top: 20px;
-    width: 350px;
-    height: auto;
+    width: auto;
+    height: 300px;
     margin: auto;
     display: block;
 }
@@ -97,3 +97,5 @@
         top: 0;
         left: 0;
     }
+
+    

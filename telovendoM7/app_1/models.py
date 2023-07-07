@@ -52,6 +52,43 @@ ESTADOS_CHOICES = [
     ('Cancelado', 'Cancelado'),
 ]
 
+
+
+class Clasificacion(models.Model):
+    nombre = models.CharField(max_length=50)
+    deleted = models.BooleanField(default=False)
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def __str__(self):
+        return self.nombre
+    
+class Producto(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.DO_NOTHING)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(default='Sin descripcion')
+    stock = models.IntegerField()
+    precio_venta = models.IntegerField()
+    deleted = models.BooleanField(default=False)
+    imag = models.ImageField(upload_to='medios', default='medios/not-found.jpg')
+    
+    def delete(self, *args, **kwargs):
+        self.deleted = True
+        self.save()
+
+    def __str__(self):
+        return self.nombre
+
+
+class Carrito(models.Model):
+    producto = models.ManyToManyField(Producto)
+    cantidad = models.IntegerField(default=0)
+
+
+
 class Cliente(AbstractUser):
     rut = models.CharField(max_length=10, blank=True)    
     first_name = models.CharField(max_length=30, blank=True)
@@ -63,6 +100,7 @@ class Cliente(AbstractUser):
     email = models.EmailField(max_length=50, blank=True, unique=True, verbose_name='email')
     # metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.DO_NOTHING)
     deleted = models.BooleanField(default=False)
+    idcarrito = models.ForeignKey(Carrito, on_delete=models.DO_NOTHING,null=True)
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     USERNAME_FIELD = 'email'
 
@@ -97,33 +135,8 @@ class Cliente(AbstractUser):
 #     def __str__(self):
 #         return self.str_nombre    
 
-class Clasificacion(models.Model):
-    nombre = models.CharField(max_length=50)
-    deleted = models.BooleanField(default=False)
     
-    def delete(self, *args, **kwargs):
-        self.deleted = True
-        self.save()
 
-    def __str__(self):
-        return self.nombre
-    
-class Producto(models.Model):
-    id = models.AutoField(primary_key=True)
-    id_clasificacion = models.ForeignKey(Clasificacion, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(default='Sin descripcion')
-    stock = models.IntegerField()
-    precio_venta = models.IntegerField()
-    deleted = models.BooleanField(default=False)
-    imag = models.ImageField(upload_to='medios', default='medios/not-found.jpg')
-    
-    def delete(self, *args, **kwargs):
-        self.deleted = True
-        self.save()
-
-    def __str__(self):
-        return self.nombre
 
 
 class Pedido(models.Model):
@@ -155,7 +168,7 @@ class DetallePedido(models.Model):
     id = models.AutoField(primary_key=True)
     idproducto = models.ForeignKey(Producto, on_delete=models.DO_NOTHING)
     idpedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    cantidad = models.IntegerField(null=False)
+    cantidad = models.IntegerField(null=False,default=1)
     precio = models.IntegerField(null=False)
     deleted = models.BooleanField(default=False)
     
@@ -169,3 +182,4 @@ class DetallePedido(models.Model):
 
     def __str__(self):
         return self.str_nombre
+    

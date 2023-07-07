@@ -10,7 +10,9 @@
     <title> {% block titulo %} Te Lo Vendo - Venta de Productos Electrónicos {% endblock %} </title>
     <!-- Bootstrap y CSS -->
     <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link href="{% static 'carrito.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,36 +21,67 @@
 
 <body id="fondo" class="mb-5">
     {% block header%}
+    <summary class="fixed-top">
+        <label class="carrito">
+            <p></p>
+        </label>
+        <details>
+            <div class="card overflow-auto" id="card" style="width: 18rem;">
+                <div class="card-body text-center overflow-auto">
+                    {% for produ in user.idcarrito.producto.all %}
+                    <small class="fs-6">{{produ.nombre|truncatechars:20}}</small>
+                    <hr>
+                    {% empty %}
+                    <div class="row">
+                    <img src="{% static 'img/empty-cart.png' %}" alt="carrito vacio" height="70px" class="mx-auto d-block">                        
+                    </div>
+                    <p><h5 class="card-title fs-3">Tu Carro está vacío</h5></p>
+                    <span class="fs-5">¡No te pierdas nuestras grandes ofertas!</span>
+                    {% endfor %}
+                    <a class="nav-link btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">Finalizar pedido</a>
+                </div>
+            </div>
+        </details>
+    </summary>
     {% block navbar%}
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-middle sticky-top">
-        <img src="{% static 'img/logo-2.png' %}" alt="logo" width="100px" class="ml-5">
         <a href="{% url 'telovendo' %}" class="navbar-brand align-middle">
+            <img src="{% static 'img/logo-2.png' %}" alt="logo" width="100px" class="ml-5">
         </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse align-middle" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'telovendo' %}">Inicio</a>
                 </li>
-                {% if not user.is_authenticated %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'login' %}">Iniciar sesion</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'catalogo' %}">Catalogo de Productos</a>
                 </li>
-                <li class="nav-item active">
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'registro' %}">Registrar usuario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="{% url 'login' %}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                    </svg></a>
                 </li>
                 {% endif %}
                 {% if user.is_authenticated %}
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'lista_pedido' %}">Lista Pedido</a>
                 </li>
                 {% if user.is_staff %}
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'gestion_producto' %}">Gestión de Productos</a>
                 </li>
                 {% endif%}
-                <li class="nav-item active">
-                    <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar sesión</a>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="{% url 'logout' %}"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+                        <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                      </svg></a>
                 </li>
                 {% endif %}
             </ul>
@@ -58,18 +91,19 @@
     <div class="container-fluid bg-light">
         <div class="container text-center">
             <div class="row">
-                <b>
-                    <span class="h2 fs-2">Todas las compras desde </span><span class="fs-4" style="padding-bottom: 20px;">$</span><span class="h2 fs-2">35.990 tienen ENVIO GRATIS a todo Chile.</span>
+                <b class="h2 fw-bold fs-3">
+                    Todas las compras desde $35.990 tienen ENVIO GRATIS a todo Chile.Tengo la solucion 🤓 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                        <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                    </svg>
                 </b>
         </div>
         </div>
     </div>
-    <div class="container">
-        <a href="{% url 'telovendo' %}"><img src="{% static 'img/logo-3.png' %}" id="logo" alt="logo"></a>
+    <div class="container text-center">
+        <a href="{% url 'telovendo' %}"><img src="{% static 'img/logo-3.png' %}" height="180px" alt="logo"></a>
     </div>
     <h3 id="titulo_logo">"Tenemos la solución que buscabas 🤓"</h3>
     {% endblock%}
-
 
     {% block content %}
 
@@ -93,7 +127,7 @@
 
     {% block footer %}
     <footer class="text-center text-lg-start text-white bg-dark mt-5">
-        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+        <section class="d-flex justify-content-center justify-content-lg-between border-bottom">
 
             <div class="h5 ms-5 d-none d-lg-block">
                 <span><b>Contactanos en nuestras redes Sociales:</b></span>
@@ -130,16 +164,15 @@
             </div>
         </section>
         <section class="bg-dark">
-            <div class="container text-center text-md-start">
-                <div class="row mt-3">
+            <div class="container text-center text-md-start ">
+                <div class="row mt-3 ">
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto">
-                        <h5 class="text-white" id="titulo_logo"><b>TE LO <span
-                            style="color: rgb(0, 162, 255); font-weight: bolder; font-family: 'Roboto Mono', monospace;">VENDO</span></b></h5>
-                        </h5>
+                        <img src="{% static 'img/logo-3.png' %}" alt="logo_footer" class="mb-3" style="width: auto; height: 50px;">
                         <p class="text-white"> 
-                            Somos una Pyme craeada en 2023, orientada a traer productos electrónicos a
+                            Somos una Pyme creada en 2023, orientada a traer productos electrónicos a
                             buenos precios y asesorar al público en sus requerimietos. Ayudamos a expertos
                             y novatos en lo que necesiten.
+                            Nosotros Tenemos la solución. 🤓
                         </p>
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto text-white"">
@@ -190,14 +223,74 @@
 
         <!-- Copyright -->
         <div class="text-center fw-bold p-3 h5 text-white">
-            © 2023 Copyright - Grupo 3: TLV.com/Tengo la solucion 🤓
+            © 2023 Copyright - Equipo 3: TLV.com/Tengo la solucion 🤓
         </div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
     {% endblock %}
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Pedido a:</h1>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'registrar_pedido' %}" method="POST">
+                {% csrf_token %}
+                {% if user.is_staff%}
+                <label for="cliente">Seleccione un cliente:</label>
+                <select id="cliente" name="cliente"> 
+                  {% for cliente in clientes %}
+                  <option value="{{ cliente.id }}">{{ cliente.first_name }} {{ cliente.last_name }}</option>
+                  {% endfor %}
+                </select>
+                {%else%}
+                <input type="hidden" class="form-control" value="{{user.id}}" id="cliente" name="cliente" >
+                {% endif %}
+                <br>
+                <label class="form-clabel" for="direccion" >Direccion de envio:</label>
+                <input type="text" class="form-control" value="{{user.direccion}}" id="direccion" name="direccion" required>
+                <br>
+                <label for="metodo">Metodo de Pago: </label>
+                <select id="metodo" name="metodo">
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Crédito">Crédito</option>
+                  <option value="Débito">Débito</option>
+                  <option value="Paypal">Paypal</option>
+                  <option value="Mach">Mach</option>
+                </select>
+                <br>
+                {% if user.is_staff %}
+                <label for="medio">Medio de Pedido: </label>
+                <select id="medio" name="medio"> 
+                  <option value="Web">Web</option>
+                  <option value="Teléfono">Teléfono</option>
+                  <option value="Email">Email</option>
+                </select>
+                {% else %}
+                <label for="medio">Medio de Pedido: </label>
+                <select id="medio" name="medio" readonly> 
+                  <option value="Web" selected>Web</option>
+                </select>
+                {% endif %}
+                <br>
+                <input type="submit" value="Ingresar Pedido" class="btn btn-primary" id="" name="" required>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="{% static 'funtions.js' %}"></script>
     <!-- Bootstrap JS -->
+    <script src="{% static 'funtion.js' %}"></script>
+    <!-- <script src="{% static 'carrito.js' %}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
