@@ -4,6 +4,15 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        <div class="col my-5">
+            <Span class="text-center">
+                <p class="h1 fs-1 fw-bold text-light">
+                    CATALOGO DE PRODUCTOS
+                </p>
+            </Span>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-xl-3 col-xxl-3 col-md-3 col-sm-12">
             <div class="col-2"style="margin-top: 3%;">
               </div>
@@ -18,7 +27,9 @@
                         <h5 class="card-title text-start">{{ producto.nombre|title|truncatechars:40 }}</h5>
                         <p class="h3 fs-3 text-start">${{ producto.precio_venta }} {%if producto.stock <= 0 %}<small>(Agotado)</small>{% endif %}</p>
                         <p class="card-text text-start">{{ producto.descripcion|truncatechars:50 }}</p>
+                        {% if user.is_authenticated %}
                         <p><a class="btn btn-primary"href="{% url 'addCarrito' producto.id %}">Añadir al Carro</a></p>
+                        {% endif %}
                         </a>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ class VistaLoginCustom(LoginView):
     redirect_authenticated_user = True # Rediderciona si el login es exitoso
     
     def get_success_url(self):
-        return reverse_lazy('catalogo') # Lugar al que se es redirecionado si el login es exitoso
+        return reverse_lazy('bienvenida') # Lugar al que se es redirecionado si el login es exitoso
 
 # class ListaPedidos (LoginRequiredMixin, ListView):
 #     model = DetallePedido
@@ -159,13 +159,15 @@ def catalogo(request):
         newcarro.save()
         actualuser.idcarrito=newcarro
         actualuser.save()
-
-
     return render(request, 'catalogo_productos.html')
 
 def Product(request,id):
     produc=Producto.objects.get(id=id)
     return render(request,"producto.html", {"producto":produc})
+
+@login_required
+def Bienvenida(request):
+    return render(request,"bienvenida.html")
 
 #class producto(TemplateView):
 #    model = Producto

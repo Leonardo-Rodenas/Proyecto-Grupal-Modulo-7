@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import VistaLoginCustom
 from django.contrib.auth.views import LogoutView
-from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido,cancelarPedido,catalogo, Product,addCarrito
+from .views import ListaPedidos, DetallePedido,gestionProducto,editarProducto,CrearDetalle,editarDetalle,confirmarPedido,cancelarPedido,catalogo, Product,addCarrito, Bienvenida
 from app_2.views import registrar_pedido,edicionProducto,CreacionDetalle
 from django.conf import settings
 from django.conf.urls.static import static
@@ -23,9 +23,10 @@ urlpatterns = [
     path('actpedido/<id>',confirmarPedido,name="confirmarpedido"),
     path('cancelarpedido/<id>',cancelarPedido,name="cancelar_pedido"),
     path('detalle_pedido/<int:pk>/cambiar_estado/', DetallePedido.as_view(), name='detalle_ cambiar_estado'),
-    path('inicio',catalogo, name="catalogo"),
+    path('catalogo',catalogo, name="catalogo"),
     path('producto/<id>',Product, name="producto"),
     path('carrito/<id>',addCarrito,name="addCarrito"),
+    path('bienvenido/',Bienvenida,name="bienvenida"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
