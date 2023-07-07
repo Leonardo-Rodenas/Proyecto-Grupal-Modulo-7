@@ -115,8 +115,8 @@ class Producto(models.Model):
     descripcion = models.TextField(default='Sin descripcion')
     stock = models.IntegerField()
     precio_venta = models.IntegerField()
-    img = models.ImageField(upload_to='medios', default='medios/not-found.jpg')
     deleted = models.BooleanField(default=False)
+    imag = models.ImageField(upload_to='medios', default='medios/not-found.jpg')
     
     def delete(self, *args, **kwargs):
         self.deleted = True

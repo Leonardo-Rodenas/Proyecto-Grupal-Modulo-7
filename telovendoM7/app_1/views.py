@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
+from carga_img.views import create_collum
 
 
 # Create your views here.
@@ -138,6 +139,7 @@ class DetallePedido(LoginRequiredMixin, DetailView):
         return redirect('detalle_pedido', pk=pedido.pk)
     
 def catalogo(request):
+    create_collum()
     return render(request, 'catalogo_productos.html')
 
 def Product(request,id):

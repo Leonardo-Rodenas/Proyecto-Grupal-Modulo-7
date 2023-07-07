@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_1',
     'app_2',
+    'carga_img',
 ]
 
 MIDDLEWARE = [
