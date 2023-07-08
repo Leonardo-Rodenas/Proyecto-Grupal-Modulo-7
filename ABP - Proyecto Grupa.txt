@@ -1,0 +1,22 @@
+# Claudio: Te enviamos acá las contraseñas para acceder a la base de datos y los usuarios con los que puedes probar el trabajo (puedes crear uno tu si quieres, pero no será super admin)
+
+# Configuracion en .env (renombrar .env_default a .env) con las siguientes variables:
+* Debido a problemas de caida presentes en el servidor proporcionado por el profesor, utilizamos uno creado en pgAdmin por nosotros.
+
+SECRET_KEY = ';NnYt$y1`FH5DCh{kzY0]]X*&]~)yVOwzEX{K(haMR+CWjtHQ1'
+    
+DB_NAME = 'telovendo_db'
+DB_USER = 'Completo'
+DB_PASSWORD = 'Sevasco-3'
+DB_HOST = 'localhost'
+DB_PORT = '5432'
+
+# Usuarios:
+usuario: pluecitot@gmail.com 
+password: oDV3pD
+
+usuario: super@super.com (este usuario es superadmin)
+password: super
+
+- Datos de usuario y de la aplicación ya cargados en al base de datos (por favor usa el respaldo enviado con el trabajo)
+

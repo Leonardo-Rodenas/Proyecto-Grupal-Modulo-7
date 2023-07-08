@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'Bozon Regular';
+    src: url(./fuentes/ROHH\ \ Bozon\ Regular.otf);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #c4c4c4;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #12335f;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6094da;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #85ace0;
+}
+
+#fondo {
+    background: linear-gradient(220.55deg, #C5EDF5 0%, #4A879A 100%);
+    text-decoration-color: black;
+}
+
+#color_letra_carrusel {
+    color: white;
+}
+
+#carrusel-container {
+    padding: 0 100px
+}
+
+#logo {
+    padding-top: 20px;
+    width: 150px;
+    height: auto;
+    margin: auto;
+    display: block;
+}
+
+#titulo_logo {
+    color: rgb(0, 0, 0);
+    font-weight: bolder;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.img-carrusel {
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo con opacidad */
+    padding: 10px;
+    color: white;
+}
+
+#img_login {
+    width: 100px;
+    height: auto;
+}
+
+#card .card:hover{
+    width: 102%;
+    left: -2.5%;
+    top: -2.5%;
+    font-size: 102%;
+}
+
+#username {
+        display: inline-block;
+        color: #000;
+        background: #fff;
+        mix-blend-mode: multiply;
+        position: relative;
+    }
+    
+#username:before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(220.55deg, #FFED46 0%, #FF7EC7 100%);
+        mix-blend-mode: screen; 
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
