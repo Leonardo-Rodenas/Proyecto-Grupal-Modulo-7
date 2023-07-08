@@ -1,4 +1,6 @@
-# Repositorio: https://github.com/Leonardo-Rodenas/Proyecto-Grupal-Modulo-7/tree/Leo
+# Repositorio:
+
+https://github.com/Leonardo-Rodenas/Proyecto-Grupal-Modulo-7
 
 # Claudio: Te enviamos acá las contraseñas para acceder a la base de datos y los usuarios con los que puedes probar el trabajo (puedes crear uno tu si quieres, pero no será super admin)
 
