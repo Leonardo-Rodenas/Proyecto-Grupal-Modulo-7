@@ -62,7 +62,7 @@
 <h1>Productos</h1>
 </div>
 
-<div class="container mt-4">
+<div class="container mt-4" style="color: #141414; text-decoration: none;">
     <div class="row">
         {% for producto in productos %}
         {% if producto.id == 9 %}
@@ -71,7 +71,7 @@
                 <img src="{{ producto.imag.url }}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
-                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}</h5>
                     <p class="card-text">{{producto.descripcion|truncatechars:50}}
                     </p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
@@ -87,7 +87,7 @@
                 <img src="{{producto.imag.url}}" class="card-img-top p-5" alt="Notebook Gamer Asus">
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
-                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}</h5>
                     <p class="card-text">{{producto.descripcion|truncatechars:50}}</p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>
                 </div>
@@ -102,7 +102,7 @@
                 <img src="{{producto.imag.url}}" class="card-img-top p-5" alt="PlayStation 5 - GoW: Ragnarok">
                 <div class="card-body">
                     <h5 class="card-title">{{producto.nombre}}</h5>
-                    <h5 class="h2 fs-3">${{producto.precio_venta }}.</h5>
+                    <h5 class="h2 fs-3">${{producto.precio_venta }}</h5>
                     <p class="card-text">{{producto.descripcion|truncatechars:50}}
                     </p>
                     <a href="{% url 'producto' producto.id %}" class="btn btn-primary">VER MÁS</a>

@@ -153,12 +153,6 @@ def addCarrito(request,id):
     
 
 def catalogo(request):
-    actualuser=request.user
-    if request.user.idcarrito == None:
-        newcarro=Carrito()
-        newcarro.save()
-        actualuser.idcarrito=newcarro
-        actualuser.save()
     return render(request, 'catalogo_productos.html')
 
 def Product(request,id):
@@ -167,6 +161,12 @@ def Product(request,id):
 
 @login_required
 def Bienvenida(request):
+    actualuser=request.user
+    if request.user.idcarrito == None:
+        newcarro=Carrito()
+        newcarro.save()
+        actualuser.idcarrito=newcarro
+        actualuser.save()
     return render(request,"bienvenida.html")
 
 #class producto(TemplateView):
